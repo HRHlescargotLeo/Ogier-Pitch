@@ -1,0 +1,670 @@
+<!--HEAD-->
+<style>
+/* ═══ IDEA TWO ═══════════════════════════════════════════════ */
+
+/* — shared concierge furniture — */
+.gcard{background:var(--white); border:1px solid var(--line)}
+.guard{
+  display:flex; gap:10px; align-items:flex-start; background:#FFF6F8; border-left:2px solid var(--crimson);
+  padding:11px 14px; font-size:12.5px; line-height:1.5; color:var(--ink-80);
+}
+.guard b{color:var(--ink); font-weight:600}
+.gbtn{
+  display:inline-flex; align-items:center; gap:8px; background:var(--ink); color:#fff;
+  border-radius:100px; padding:9px 18px; font-size:13px; font-weight:600; text-decoration:none;
+  transition:.2s var(--ease);
+}
+.gbtn:hover{background:var(--crimson)}
+.gbtn--ghost{background:none; color:var(--ink); border:1px solid var(--line)}
+.gbtn--ghost:hover{background:var(--surface); color:var(--ink); border-color:var(--ink)}
+
+/* — Concept A: docked contextual guide — */
+.pagemock{position:relative; height:520px; overflow:hidden; background:var(--white)}
+.pm-crumb{font-size:11.5px; color:var(--ink-60); padding:0 30px; letter-spacing:.01em}
+.pm-hero{background:var(--surface); padding:26px 30px 30px; border-bottom:1px solid var(--line)}
+.pm-hero h1{font-size:34px; margin:10px 0 0}
+.pm-cols{display:grid; grid-template-columns:200px 1fr; gap:34px; padding:26px 30px}
+.pm-toc{font-size:12.5px}
+.pm-toc h6{font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-60); margin:0 0 11px}
+.pm-toc a{display:block; text-decoration:none; padding:6px 0; color:var(--ink-80); border-bottom:1px solid var(--line-soft)}
+.pm-body p{font-size:15px; line-height:1.7; color:var(--ink-80); font-weight:300; max-width:70ch}
+.pagefade{position:absolute; inset:auto 0 0 0; height:110px; background:linear-gradient(transparent,#fff 78%); pointer-events:none; z-index:2}
+
+.dock{position:absolute; right:24px; bottom:22px; z-index:12; width:min(430px,calc(100% - 48px))}
+.docklaunch{
+  margin-left:auto; display:flex; align-items:center; gap:11px; background:var(--ink); color:#fff;
+  border-radius:100px; padding:12px 20px 12px 14px; box-shadow:var(--shadow-md); font-size:14px; font-weight:600;
+  transition:.22s var(--ease);
+}
+.docklaunch:hover{background:var(--crimson); transform:translateY(-1px)}
+.docklaunch .sp{width:26px; height:26px; border-radius:50%; background:var(--crimson); display:grid; place-items:center; flex:none}
+.docklaunch:hover .sp{background:#fff}
+.docklaunch .sp svg{stroke:#fff}
+.docklaunch:hover .sp svg{stroke:var(--crimson)}
+.dockpanel{
+  display:none; background:var(--white); box-shadow:var(--shadow-lg); border:1px solid var(--line);
+  overflow:hidden; animation:pop .28s var(--ease);
+}
+.dock.is-open .dockpanel{display:block}
+.dock.is-open .docklaunch{display:none}
+@keyframes pop{from{opacity:0; transform:translateY(14px) scale(.98)}to{opacity:1; transform:none}}
+.dp-head{display:flex; align-items:center; gap:11px; padding:13px 16px; background:var(--ink); color:#fff}
+.dp-head .sp{width:26px; height:26px; border-radius:50%; background:var(--crimson); display:grid; place-items:center; flex:none}
+.dp-head b{font-size:14px; letter-spacing:-.01em}
+.dp-head small{display:block; font-size:11px; color:rgba(255,255,255,.62); font-weight:400}
+.dp-x{margin-left:auto; color:rgba(255,255,255,.7); font-size:18px; line-height:1}
+.dp-x:hover{color:#fff}
+.dp-ctx{
+  font-size:11.5px; padding:9px 16px; background:var(--surface); border-bottom:1px solid var(--line);
+  color:var(--ink-60); display:flex; align-items:center; gap:7px;
+}
+.dp-ctx b{color:var(--ink); font-weight:600}
+.dp-body{max-height:290px; overflow:auto; padding:16px; display:flex; flex-direction:column; gap:14px}
+.bub{max-width:88%; font-size:13.5px; line-height:1.55}
+.bub--me{align-self:flex-end; background:var(--ink); color:#fff; padding:9px 14px; border-radius:14px 14px 3px 14px}
+.bub--og{align-self:flex-start; width:100%}
+.bub--og > p{margin:0 0 10px; color:var(--ink-80)}
+.dp-tbl{width:100%; border-collapse:collapse; font-size:12.5px; margin:2px 0 10px}
+.dp-tbl th{text-align:left; font-size:10px; letter-spacing:.11em; text-transform:uppercase; color:var(--ink-60); padding:0 8px 7px 0; font-weight:700; border-bottom:1px solid var(--line)}
+.dp-tbl td{padding:7px 8px 7px 0; border-bottom:1px solid var(--line-soft); vertical-align:top; line-height:1.45}
+.dp-tbl td:first-child{font-weight:600; color:var(--ink); white-space:nowrap}
+.dp-list{list-style:none; margin:0 0 10px; padding:0}
+.dp-list li{padding:9px 0; border-bottom:1px solid var(--line-soft); font-size:12.5px; line-height:1.45}
+.dp-list li b{display:block; font-size:13px; font-weight:600; letter-spacing:-.01em; margin-bottom:2px}
+.dp-list li span{color:var(--ink-60); font-size:11.5px}
+.dp-people{display:flex; gap:9px; margin-bottom:10px}
+.dp-people div{flex:1; background:var(--surface); padding:11px; text-align:center}
+.dp-people .av{width:32px; height:32px; border-radius:50%; background:var(--slate); color:#fff; display:grid; place-items:center; font-size:11px; font-weight:600; margin:0 auto 7px}
+.dp-people b{display:block; font-size:12px}
+.dp-people span{font-size:10.5px; color:var(--ink-60); line-height:1.3; display:block}
+.dp-acts{display:flex; gap:8px; flex-wrap:wrap; margin-top:11px}
+.dp-chips{display:flex; gap:7px; flex-wrap:wrap; padding:12px 16px; border-top:1px solid var(--line); background:var(--surface)}
+.dp-chip{
+  font-size:12px; font-weight:500; background:var(--white); border:1px solid var(--line);
+  border-radius:100px; padding:6px 13px; transition:.18s var(--ease); text-align:left;
+}
+.dp-chip:hover{border-color:var(--ink); background:var(--ink); color:#fff}
+.typing{display:inline-flex; gap:4px; align-items:center; padding:3px 0}
+.typing i{width:6px; height:6px; border-radius:50%; background:var(--crimson); opacity:.35; animation:blink 1.1s infinite}
+.typing i:nth-child(2){animation-delay:.16s}.typing i:nth-child(3){animation-delay:.32s}
+@keyframes blink{0%,60%,100%{opacity:.25}30%{opacity:1}}
+
+/* — Concept B: ask-first search — */
+.ask{background:var(--white)}
+.ask-top{background:var(--ink); padding:34px 34px 30px; color:#fff}
+.ask-top .k{font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--crimson); margin-bottom:12px}
+.ask-top h3{font-size:26px; margin:0 0 18px; color:#fff; max-width:24ch}
+.askfield{display:flex; align-items:center; gap:12px; background:#fff; padding:13px 16px}
+.askfield svg{flex:none; stroke:var(--crimson)}
+.askfield input{flex:1; border:0; font:inherit; font-size:15px; color:var(--ink); background:none; outline:none; min-width:0}
+.askfield button{background:var(--crimson); color:#fff; padding:8px 18px; font-size:13px; font-weight:600; border-radius:100px; flex:none}
+.asksugg{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px}
+.asksugg button{
+  font-size:12.5px; color:rgba(255,255,255,.85); border:1px solid rgba(255,255,255,.28);
+  border-radius:100px; padding:6px 14px; transition:.18s var(--ease); text-align:left;
+}
+.asksugg button:hover{background:#fff; color:var(--ink); border-color:#fff}
+.ans{display:grid; grid-template-columns:1fr 288px; gap:0; border-top:1px solid var(--line)}
+.ans__main{padding:26px 30px; border-right:1px solid var(--line); min-width:0}
+.ans__side{padding:26px 22px; background:var(--surface)}
+.jtoggle{display:flex; gap:7px; margin-bottom:20px; flex-wrap:wrap; align-items:center}
+.jtoggle .lbl{font-size:11px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-60); margin-right:4px}
+.jtoggle button{font-size:12.5px; border:1px solid var(--line); border-radius:100px; padding:5px 14px; font-weight:500; transition:.18s var(--ease)}
+.jtoggle button[aria-pressed="true"]{background:var(--ink); border-color:var(--ink); color:#fff}
+.ans__main h4{font-size:20px; margin:0 0 14px; letter-spacing:-.025em}
+.ans__main p{font-size:15.5px; line-height:1.7; color:var(--ink-80); font-weight:300}
+.cite{
+  display:inline-block; font-size:10px; font-weight:700; color:var(--crimson); vertical-align:super;
+  border:1px solid currentColor; border-radius:3px; padding:0 3px; margin-left:2px; line-height:1.4; cursor:pointer;
+}
+.ans__acts{display:flex; gap:9px; align-items:center; margin-top:22px; padding-top:18px; border-top:1px solid var(--line); flex-wrap:wrap}
+.ans__acts .fb{margin-left:auto; font-size:12.5px; color:var(--ink-60); display:flex; align-items:center; gap:9px}
+.ans__acts .fb button{border:1px solid var(--line); border-radius:100px; width:28px; height:28px; display:grid; place-items:center; font-size:12px}
+.ans__acts .fb button:hover{border-color:var(--ink)}
+.ans__side h6{font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-60); margin:0 0 13px}
+.src{display:flex; gap:11px; padding:11px 0; border-bottom:1px solid var(--line); text-decoration:none}
+.src .n{font-size:10px; font-weight:700; color:var(--crimson); border:1px solid currentColor; border-radius:3px; padding:1px 4px; height:fit-content; flex:none}
+.src b{display:block; font-size:13px; font-weight:600; line-height:1.35; letter-spacing:-.012em}
+.src small{font-size:11px; color:var(--ink-60)}
+.src:hover b{color:var(--crimson)}
+
+/* — Concept C: guided companion — */
+.wiz{background:var(--surface); padding:0}
+.wiz__bar{display:flex; align-items:center; gap:14px; padding:14px 28px; background:var(--ink); color:#fff}
+.wiz__bar b{font-size:13.5px}
+.wiz__bar small{font-size:11.5px; color:rgba(255,255,255,.6)}
+.wiz__prog{margin-left:auto; display:flex; gap:5px}
+.wiz__prog i{width:26px; height:3px; background:rgba(255,255,255,.25); display:block; transition:.3s var(--ease)}
+.wiz__prog i.on{background:var(--crimson)}
+.wiz__stage{padding:34px 28px 32px; min-height:300px}
+.wq{animation:fadein .3s var(--ease)}
+.wq .step{font-size:11px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--crimson); margin-bottom:12px}
+.wq h4{font-size:26px; margin:0 0 8px; letter-spacing:-.028em; max-width:22ch}
+.wq .hint{font-size:14px; color:var(--ink-60); font-weight:300; margin:0 0 22px}
+.wopts{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; max-width:720px}
+.wopt{
+  text-align:left; background:var(--white); border:1px solid var(--line); padding:15px 17px;
+  transition:.18s var(--ease);
+}
+.wopt:hover{border-color:var(--ink); transform:translateY(-1px); box-shadow:var(--shadow-sm)}
+.wopt b{display:block; font-size:15px; font-weight:600; letter-spacing:-.015em}
+.wopt span{display:block; font-size:12.5px; color:var(--ink-60); margin-top:3px; line-height:1.45}
+.wback{margin-top:20px; font-size:12.5px; font-weight:600; color:var(--ink-60)}
+.wback:hover{color:var(--crimson)}
+
+.wres{animation:fadein .35s var(--ease)}
+.wres__top{display:grid; grid-template-columns:1.25fr 1fr; gap:24px; align-items:stretch}
+.wres__top > div:first-child{display:flex; flex-direction:column}
+.walt{flex:1}
+.wpick{background:var(--white); padding:24px; border-top:3px solid var(--crimson)}
+.wpick .k{font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--crimson)}
+.wpick h4{font-size:30px; margin:9px 0 11px}
+.wpick p{font-size:14.5px; line-height:1.6; color:var(--ink-80); font-weight:300; margin:0}
+.walt{background:var(--white); padding:18px 20px; margin-top:12px; border-top:1px solid var(--line)}
+.walt .k{font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-60)}
+.walt b{display:block; font-size:17px; margin:6px 0 5px}
+.walt p{font-size:13px; line-height:1.55; color:var(--ink-60); margin:0; font-weight:300}
+.wneed{background:var(--white); padding:22px}
+.wneed h6{font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-60); margin:0 0 12px}
+.wneed .grp{margin-bottom:16px}
+.wneed .grp span.hd{display:block; font-size:11.5px; font-weight:700; color:var(--crimson); margin-bottom:6px; letter-spacing:.02em}
+.wneed .grp a{display:block; font-size:13.5px; text-decoration:none; padding:5px 0; border-bottom:1px solid var(--line-soft); color:var(--ink-80)}
+.wneed .grp a:hover{color:var(--crimson)}
+.wres__foot{display:grid; grid-template-columns:1fr 1fr 300px; gap:20px; margin-top:20px}
+.wcap{background:var(--ink); color:#fff; padding:20px}
+.wcap h6{font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--crimson); margin:0 0 10px}
+.wcap p{font-size:13px; line-height:1.5; color:rgba(255,255,255,.75); font-weight:300; margin:0 0 13px}
+.wcap .f{display:flex; gap:0; background:#fff}
+.wcap input{flex:1; border:0; padding:10px 12px; font:inherit; font-size:13px; outline:none; min-width:0}
+.wcap button{background:var(--crimson); color:#fff; padding:0 16px; font-size:12.5px; font-weight:600}
+.wrestart{margin-top:22px; font-size:12.5px; font-weight:600; color:var(--ink-60)}
+.wrestart:hover{color:var(--crimson)}
+
+@media (max-width:900px){
+  .ans,.wres__top,.wres__foot,.wopts,.pm-cols{grid-template-columns:1fr}
+  .ans__main{border-right:0; border-bottom:1px solid var(--line)}
+  .dock{right:14px; left:14px; width:auto}
+  .pagemock{height:auto; min-height:420px}
+}
+</style>
+<!--/HEAD-->
+
+<main>
+<section class="wrap intro">
+  <p class="eyebrow">Idea Two</p>
+  <h1>A concierge that knows the archive better than the archive does.</h1>
+  <p class="lede">Ogier publishes at a rate few firms match — <strong>4,392 items</strong> in News
+  and insights, filterable by service, sector, location, type, topic, year, month and author.
+  That is a library, and libraries need a librarian. Three concepts follow, from a light
+  contextual helper to a guided journey that ends in a lead.</p>
+</section>
+
+<section class="wrap anno" style="padding:34px 0 10px">
+  <div class="note">
+    <strong>Why the Lexus comparison holds.</strong> Valtech's diagnosis of the Lexus site was that
+    it offered plenty of self-service and no guidance. Ogier's site has the same shape: a mega-menu
+    running to several hundred links, seven filter dimensions on the insights listing, six legal
+    systems and three business lines. A visitor who knows exactly what they want does fine. Everyone
+    else — the first-time fund manager, the in-house counsel checking a deadline, the family office
+    adviser comparing jurisdictions — is left to browse. Each concept below answers a different slice
+    of that, and all three share one back end.
+  </div>
+</section>
+
+<!-- ══ CONCEPT 1 ══════════════════════════════════════════ -->
+<section class="wrap concept" id="c1">
+  <div class="concept__head">
+    <div>
+      <p class="concept__num">Concept 1</p>
+      <h2>Ogier Guide — the concierge that reads over your shoulder</h2>
+      <p class="sub">A quiet dock on every page that already knows where you are. It opens with
+      three questions worth asking <em>about this page</em>, and answers in the shape the answer
+      wants — a table, a shortlist of people, a reading list — never a wall of text.</p>
+    </div>
+    <ul class="whylist anno">
+      <li><b>Context beats a blank box.</b> Nobody knows what to ask a chatbot; suggesting three good questions removes the hardest step.</li>
+      <li><b>Structured answers, like Lexus.</b> A jurisdiction comparison renders as a table; a "who does this" question renders as people cards.</li>
+      <li><b>Always ends somewhere.</b> Every answer closes with a next step — a person, a subscription, a meeting.</li>
+    </ul>
+  </div>
+
+  <div class="frame">
+    <div class="frame__bar">
+      <div class="frame__dots"><i></i><i></i><i></i></div>
+      <div class="frame__url">ogier.com/expertise/services/legal/investment-funds/</div>
+      <div class="frame__tag">Live</div>
+    </div>
+    <div class="frame__body">
+      <div class="og pagemock">
+        <nav class="og-nav">
+          <div class="og-logo">Ogier</div>
+          <ul><li>People</li><li>Expertise</li><li>Locations</li><li>News and insights</li><li>About us</li></ul>
+        </nav>
+        <div class="pm-hero">
+          <div class="pm-crumb" style="padding:0">Home &nbsp;›&nbsp; Expertise &nbsp;›&nbsp; Services &nbsp;›&nbsp; Legal &nbsp;›&nbsp; Investment Funds</div>
+          <h1>Investment Funds</h1>
+        </div>
+        <div class="pm-cols">
+          <div class="pm-toc">
+            <h6>On this page</h6>
+            <a href="#c1">Overview</a><a href="#c1">Our services</a><a href="#c1">Jurisdictions</a>
+            <a href="#c1">Our team</a><a href="#c1">Insights</a>
+          </div>
+          <div class="pm-body">
+            <p>You don't pay for a learning curve when you instruct us. We have been focused on
+            funds since the beginning of the industry.</p>
+            <p>Our Investment Funds team advises on the full spectrum of fund structures and
+            strategies, including hedge funds, private equity funds, real estate funds,
+            infrastructure, energy, credit, debt, venture capital funds, cryptocurrency funds,
+            hybrid funds, impact funds and sustainable investing.</p>
+            <p>We are in a unique position to be able to offer cross-jurisdictional advice covering
+            each of BVI, Cayman, Guernsey, Irish, Jersey and Luxembourg laws.</p>
+          </div>
+        </div>
+        <div class="pagefade"></div>
+
+        <div class="dock" id="dock">
+          <button class="docklaunch" id="docklaunch" type="button">
+            <span class="sp"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span>
+            Ask about funds
+          </button>
+          <div class="dockpanel">
+            <div class="dp-head">
+              <span class="sp"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span>
+              <div><b>Ogier Guide</b><small>Answers drawn from ogier.com</small></div>
+              <button class="dp-x" id="dockclose" type="button" aria-label="Close">×</button>
+            </div>
+            <div class="dp-ctx">You're reading <b>Investment Funds</b> · Legal</div>
+            <div class="dp-body" id="dpbody">
+              <div class="bub bub--og">
+                <p>I can help with fund structures, jurisdictions and who to speak to. Here are
+                three things people usually ask from this page.</p>
+              </div>
+            </div>
+            <div class="dp-chips" id="dpchips">
+              <button class="dp-chip" type="button" data-q="compare">Cayman or Luxembourg for a PE fund?</button>
+              <button class="dp-chip" type="button" data-q="who">Who leads funds work in Asia?</button>
+              <button class="dp-chip" type="button" data-q="latest">Latest on fund administration</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="demohint anno">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11.5V5a2 2 0 1 1 4 0v6"/><path d="M13 11V4a2 2 0 1 1 4 0v8"/><path d="M17 11.5V7a2 2 0 1 1 4 0v9a6 6 0 0 1-6 6h-2a7 7 0 0 1-6-4l-2.5-4a2 2 0 0 1 3.2-2.3L9 14"/></svg>
+    Open the dock, then try each of the three suggested questions — note that each answers in a different format
+  </p>
+  <dl class="build anno">
+    <div><dt>Effort</dt><dd>Medium. Retrieval over existing pages; no new content model.</dd></div>
+    <div><dt>The real work</dt><dd>Answer templates and tone-of-voice rules, not the model.</dd></div>
+    <div><dt>Roadmap slot</dt><dd>Phase 2, scoped to one practice area first — as Lexus did with a single model.</dd></div>
+  </dl>
+</section>
+
+<!-- ══ CONCEPT 2 ══════════════════════════════════════════ -->
+<section class="wrap concept" id="c2">
+  <div class="concept__head">
+    <div>
+      <p class="concept__num">Concept 2</p>
+      <h2>Ask Ogier — answers first, with the sources showing</h2>
+      <p class="sub">Replace the magnifying glass with a question box. A query returns a short,
+      cited answer built from Ogier's own published material, with the sources on the right and a
+      jurisdiction switch that genuinely changes the answer.</p>
+    </div>
+    <ul class="whylist anno">
+      <li><b>Citations are the trust mechanism.</b> For a law firm, an uncited answer is a liability; a cited one is a shop window for the archive.</li>
+      <li><b>It surfaces the back catalogue.</b> Thousands of insights currently reachable only through seven filters become the substance of the answer.</li>
+      <li><b>The guardrail is part of the design.</b> Scope, disclaimer and route-to-human are visible, not buried in a footer.</li>
+    </ul>
+  </div>
+
+  <div class="frame">
+    <div class="frame__bar">
+      <div class="frame__dots"><i></i><i></i><i></i></div>
+      <div class="frame__url">ogier.com/ask</div>
+      <div class="frame__tag">Live</div>
+    </div>
+    <div class="frame__body">
+      <div class="og ask">
+        <div class="ask-top">
+          <p class="k">Ask Ogier</p>
+          <h3>What would you like to know?</h3>
+          <div class="askfield">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            <input id="askinput" type="text" value="Do I need to make an economic substance filing for my fund vehicle?" aria-label="Ask a question">
+            <button type="button" id="askgo">Ask</button>
+          </div>
+          <div class="asksugg">
+            <button type="button">How long does it take to launch a Jersey Private Fund?</button>
+            <button type="button">What changed in the Register of Overseas Entities rules?</button>
+            <button type="button">Who should I speak to about a trust dispute in Cayman?</button>
+          </div>
+        </div>
+
+        <div class="ans">
+          <div class="ans__main">
+            <div class="jtoggle" id="jtoggle">
+              <span class="lbl">Jurisdiction</span>
+              <button type="button" data-j="cayman" aria-pressed="true">Cayman Islands</button>
+              <button type="button" data-j="bvi" aria-pressed="false">British Virgin Islands</button>
+            </div>
+            <h4 id="ans-h">Economic substance and fund vehicles — Cayman Islands</h4>
+            <div id="ans-b"></div>
+            <div class="guard">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" stroke-width="2" style="flex:none;margin-top:2px"><path d="M12 3l8 3v6c0 4.5-3.2 8.2-8 9-4.8-.8-8-4.5-8-9V6l8-3z"/><path d="M12 9v4M12 16v.5"/></svg>
+              <span><b>General information, not legal advice.</b> Answers are drawn from Ogier's
+              published material and do not create a client relationship. Substance analysis turns
+              on each entity's own facts — speak to the team before you file.</span>
+            </div>
+            <div class="ans__acts">
+              <a class="gbtn" href="#c2">Speak to the Regulatory team <span class="chev"></span></a>
+              <a class="gbtn gbtn--ghost" href="#c2">See all 41 economic substance insights</a>
+              <span class="fb">Useful? <button type="button" aria-label="Yes">👍</button><button type="button" aria-label="No">👎</button></span>
+            </div>
+          </div>
+          <div class="ans__side">
+            <h6>Sources</h6>
+            <div id="ans-src"></div>
+            <h6 style="margin-top:22px">Who wrote this</h6>
+            <div class="pcard" style="background:var(--white)">
+              <div class="who"><span class="av">SW</span><div><b>Stuart Watson</b><small>Regulatory · London</small></div></div>
+              <span class="go">Ask a follow-up <span class="chev"></span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="demohint anno">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11.5V5a2 2 0 1 1 4 0v6"/><path d="M13 11V4a2 2 0 1 1 4 0v8"/><path d="M17 11.5V7a2 2 0 1 1 4 0v9a6 6 0 0 1-6 6h-2a7 7 0 0 1-6-4l-2.5-4a2 2 0 0 1 3.2-2.3L9 14"/></svg>
+    Switch the jurisdiction — the answer and its sources both change
+  </p>
+  <dl class="build anno">
+    <div><dt>Effort</dt><dd>High. Retrieval quality, citation accuracy and review sign-off all matter.</dd></div>
+    <div><dt>The real work</dt><dd>A review workflow: which answers a partner has approved, and how stale ones are retired.</dd></div>
+    <div><dt>Roadmap slot</dt><dd>Phase 3. Worth piloting internally — as a knowledge tool for fee earners — before it faces clients.</dd></div>
+  </dl>
+</section>
+
+<!-- ══ CONCEPT 3 ══════════════════════════════════════════ -->
+<section class="wrap concept" id="c3">
+  <div class="concept__head">
+    <div>
+      <p class="concept__num">Concept 3</p>
+      <h2>The Structuring Companion — a guided route to a real enquiry</h2>
+      <p class="sub">Lexus's concierge ends in a configured car and a test drive. Ogier's equivalent
+      is a jurisdiction shortlist: four questions, then a tailored summary naming the vehicle, the
+      Ogier services across both Legal and Corporate and Fiduciary, and the team to call.</p>
+    </div>
+    <ul class="whylist anno">
+      <li><b>This is the lead engine.</b> Valtech reported a 190% lift in lead conversion at Lexus; the mechanism was a guided journey with an obvious end.</li>
+      <li><b>It demonstrates the one-firm model.</b> The output always spans two business lines, which is the argument the homepage struggles to make.</li>
+      <li><b>The output is shareable.</b> A summary someone can email to their CFO does more selling than a brochure.</li>
+    </ul>
+  </div>
+
+  <div class="frame">
+    <div class="frame__bar">
+      <div class="frame__dots"><i></i><i></i><i></i></div>
+      <div class="frame__url">ogier.com/tools/where-should-my-fund-be</div>
+      <div class="frame__tag">Live</div>
+    </div>
+    <div class="frame__body">
+      <div class="og wiz">
+        <div class="wiz__bar">
+          <div><b>Where should my fund be domiciled?</b> <small>&nbsp;·&nbsp; about 60 seconds</small></div>
+          <div class="wiz__prog" id="wprog"><i class="on"></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="wiz__stage" id="wstage"></div>
+      </div>
+    </div>
+  </div>
+  <p class="demohint anno">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11.5V5a2 2 0 1 1 4 0v6"/><path d="M13 11V4a2 2 0 1 1 4 0v8"/><path d="M17 11.5V7a2 2 0 1 1 4 0v9a6 6 0 0 1-6 6h-2a7 7 0 0 1-6-4l-2.5-4a2 2 0 0 1 3.2-2.3L9 14"/></svg>
+    Answer four questions — different combinations produce genuinely different recommendations
+  </p>
+  <dl class="build anno">
+    <div><dt>Effort</dt><dd>Low to medium. Deterministic logic, no model required for v1.</dd></div>
+    <div><dt>The real work</dt><dd>Agreeing the decision rules with partners, and the disclaimer around them.</dd></div>
+    <div><dt>Roadmap slot</dt><dd>Phase 1–2. The fastest of the three to prove commercial value.</dd></div>
+  </dl>
+</section>
+
+<section class="wrap anno" style="padding:12px 0 20px">
+  <div class="note" style="border-color:var(--ink)">
+    <strong>How they fit together.</strong> These are not three competing products — they are one
+    capability at three levels of ambition, and they should be sequenced that way. Concept 3 first:
+    it is deterministic, it needs no model, and it proves the commercial case with a lead number
+    inside a quarter. Concept 1 second, scoped to a single practice area, which is exactly how
+    Lexus began. Concept 2 last, once there is a content review workflow good enough that a partner
+    is comfortable with a cited answer appearing under Ogier's name. All three run on the same
+    need-to-service mapping that Idea One's route finder requires — build it once.
+  </div>
+  <p style="margin-top:26px"><a href="idea-one.html" style="font-weight:600;color:var(--crimson);text-decoration:none">Back to Idea One — audience routing <span class="chev" style="display:inline-block"></span></a></p>
+</section>
+</main>
+
+<!--JS-->
+<script>
+/* ── Concept 1: docked guide ──────────────────────── */
+(function(){
+  var dock=document.getElementById('dock'), body=document.getElementById('dpbody'),
+      chips=document.getElementById('dpchips');
+  if(!dock) return;
+  document.getElementById('docklaunch').addEventListener('click',function(){ dock.classList.add('is-open'); });
+  document.getElementById('dockclose').addEventListener('click',function(){ dock.classList.remove('is-open'); });
+
+  var A = {
+    compare:{
+      q:'Cayman or Luxembourg for a PE fund?',
+      html:'<p>It depends chiefly on where your investors sit. The short version:</p>'+
+        '<table class="dp-tbl"><tr><th></th><th>Cayman</th><th>Luxembourg</th></tr>'+
+        '<tr><td>Best for</td><td>US and Asian LPs</td><td>EU LPs needing a passport</td></tr>'+
+        '<tr><td>Set-up</td><td>Days to weeks</td><td>Weeks to months</td></tr>'+
+        '<tr><td>Substance</td><td>Light for the fund itself</td><td>Real, and enforced</td></tr>'+
+        '<tr><td>Ogier</td><td>Legal + Fund Services</td><td>Legal + Corporate Services</td></tr></table>'+
+        '<p style="font-size:12.5px;color:var(--ink-60)">Ogier advises on both, so this is not a house view — we act on whichever fits.</p>'+
+        '<div class="dp-acts"><a class="gbtn" href="#c1">Compare in full <span class="chev"></span></a>'+
+        '<a class="gbtn gbtn--ghost" href="#c1">Try the structuring tool</a></div>'
+    },
+    who:{
+      q:'Who leads funds work in Asia?',
+      html:'<p>Three people to start with, across our Hong Kong, Singapore and Shanghai offices:</p>'+
+        '<div class="dp-people">'+
+        '<div><span class="av">KH</span><b>Kate Hodson</b><span>Investment Funds<br>Hong Kong</span></div>'+
+        '<div><span class="av">NP</span><b>Nathan Powell</b><span>Corporate<br>Hong Kong</span></div>'+
+        '<div><span class="av">DP</span><b>Daniel Pacic</b><span>Corporate<br>Singapore</span></div></div>'+
+        '<p style="font-size:12.5px;color:var(--ink-60)">Ogier has five offices across Asia and 29 languages firm-wide.</p>'+
+        '<div class="dp-acts"><a class="gbtn" href="#c1">Introduce me <span class="chev"></span></a>'+
+        '<a class="gbtn gbtn--ghost" href="#c1">See the whole team</a></div>'
+    },
+    latest:{
+      q:'Latest on fund administration',
+      html:'<p>Three most recent pieces touching fund administration:</p>'+
+        '<ul class="dp-list">'+
+        '<li><b>Nichola Costello on the trends shaping the future of fund administration in Ireland</b><span>Insight · 21 August 2026 · Ireland · 3 min</span></li>'+
+        '<li><b>Luxembourg&rsquo;s new carried interest regime</b><span>Insight · 4 September 2026 · Aurélie Clementz</span></li>'+
+        '<li><b>Asset Management Essentials: Ireland — Q3 2026</b><span>Newsletter · 14 August 2026 · 28 min</span></li>'+
+        '</ul>'+
+        '<div class="dp-acts"><a class="gbtn" href="#c1">Email these to me <span class="chev"></span></a>'+
+        '<a class="gbtn gbtn--ghost" href="#c1">Subscribe to funds updates</a></div>'
+    }
+  };
+  function add(cls,html){ var d=document.createElement('div'); d.className='bub '+cls; d.innerHTML=html; body.appendChild(d); body.scrollTop=body.scrollHeight; return d; }
+  chips.addEventListener('click',function(e){
+    var b=e.target.closest('.dp-chip'); if(!b) return;
+    var a=A[b.dataset.q];
+    add('bub--me', a.q);
+    var t=add('bub--og','<span class="typing"><i></i><i></i><i></i></span>');
+    setTimeout(function(){ t.innerHTML=a.html; body.scrollTop=body.scrollHeight; }, 620);
+  });
+})();
+
+/* ── Concept 2: ask answers ───────────────────────── */
+(function(){
+  var tog=document.getElementById('jtoggle'), h=document.getElementById('ans-h'),
+      b=document.getElementById('ans-b'), s=document.getElementById('ans-src');
+  if(!tog) return;
+  var D={
+    cayman:{
+      h:'Economic substance and fund vehicles — Cayman Islands',
+      body:'<p>A Cayman entity carrying on a &ldquo;relevant activity&rdquo; has to satisfy the economic'+
+        ' substance test and report annually to the Department for International Tax Cooperation.'+
+        '<span class="cite">1</span> Investment funds themselves are generally outside the regime — an'+
+        ' investment fund is excluded from the definition of a relevant entity — but the vehicles'+
+        ' <em>around</em> the fund frequently are not.<span class="cite">2</span></p>'+
+        '<p>In practice the work is classification rather than compliance. A general partner, a'+
+        ' management company and a holding SPV each have to be assessed on their own facts, and a'+
+        ' notification is required even where the conclusion is that no relevant activity is carried'+
+        ' on.<span class="cite">3</span> Getting the classification wrong is the common failure, not'+
+        ' getting the filing late.</p>',
+      src:[['1','Economic Substance','Legal › Regulatory · service page'],
+           ['2','Investment Funds','Legal · service page'],
+           ['3','Ogier Regulatory Consulting','Consulting · service page']]
+    },
+    bvi:{
+      h:'Economic substance and fund vehicles — British Virgin Islands',
+      body:'<p>The BVI regime sits under the Economic Substance (Companies and Limited Partnerships)'+
+        ' Act, and reporting runs through the BOSS system rather than an annual return to a tax'+
+        ' authority.<span class="cite">1</span> The categories of relevant activity broadly track'+
+        ' Cayman&rsquo;s, so the analysis will feel familiar — but the timing does not.</p>'+
+        '<p>Each BVI entity reports against its own financial period, which means a group holding'+
+        ' several BVI vehicles can be working to several different deadlines in the same year.'+
+        '<span class="cite">2</span> As in Cayman, fund vehicles are largely out of scope while'+
+        ' management, holding and financing entities often are not.<span class="cite">3</span></p>',
+      src:[['1','Economic Substance','Legal › Regulatory · service page'],
+           ['2','BVI Law in Europe and Asia','Sector · overview page'],
+           ['3','Ogier Regulatory Consulting','Consulting · service page']]
+    }
+  };
+  function draw(k){
+    var d=D[k]; h.textContent=d.h; b.innerHTML=d.body;
+    s.innerHTML=d.src.map(function(x){
+      return '<a class="src" href="#c2"><span class="n">'+x[0]+'</span><span><b>'+x[1]+'</b><small>'+x[2]+'</small></span></a>';
+    }).join('');
+  }
+  tog.addEventListener('click',function(e){
+    var btn=e.target.closest('button[data-j]'); if(!btn) return;
+    tog.querySelectorAll('button[data-j]').forEach(function(x){ x.setAttribute('aria-pressed', x===btn?'true':'false'); });
+    draw(btn.dataset.j);
+  });
+  draw('cayman');
+})();
+
+/* ── Concept 3: structuring companion ─────────────── */
+(function(){
+  var stage=document.getElementById('wstage'), prog=document.getElementById('wprog');
+  if(!stage) return;
+
+  var Q=[
+    {step:'Question 1 of 4', h:'What are you setting up?', hint:'Pick the closest strategy — you can refine it with the team later.',
+     opts:[
+      ['hedge','Hedge or open-ended fund','Liquid strategies, regular subscriptions and redemptions',{cayman:3,bvi:1,ireland:1},'an open-ended hedge strategy'],
+      ['pe','Private equity or venture','Closed-ended, drawdown commitments, 10-year life',{luxembourg:3,jersey:2,cayman:1},'a closed-ended private equity or venture fund'],
+      ['real','Real estate, infrastructure or energy','Asset-holding structures, often with debt',{luxembourg:2,jersey:3,ireland:1},'a real assets or infrastructure fund'],
+      ['digital','Digital assets or Web3','Tokenised, crypto or hybrid strategies',{cayman:3,bvi:3},'a digital assets strategy']]},
+    {step:'Question 2 of 4', h:'Where are most of your investors?', hint:'The single biggest driver of where the fund should sit.',
+     opts:[
+      ['us','North America','US institutions, endowments, funds of funds',{cayman:3,bvi:1},'investors mainly in North America'],
+      ['eu','Europe and the UK','EU institutions, pension money, marketing into the EU',{luxembourg:3,ireland:2,jersey:1},'investors mainly in Europe and the UK'],
+      ['asia','Asia','Hong Kong, Singapore, Japan and mainland China',{cayman:2,bvi:1,jersey:1},'investors mainly across Asia'],
+      ['global','Genuinely global','A spread with no dominant region',{cayman:2,luxembourg:2},'a genuinely global investor base']]},
+    {step:'Question 3 of 4', h:'What matters most on this launch?', hint:'Everyone wants all four. Pick the one you would defend to your board.',
+     opts:[
+      ['speed','Speed to market','Live this quarter, not next year',{cayman:2,bvi:2,jersey:1},'speed to market as the priority'],
+      ['familiar','Investor familiarity','No education needed in the data room',{cayman:2,luxembourg:2},'investor familiarity as the priority'],
+      ['cost','Running cost','Lean structure, modest AUM',{bvi:3,cayman:1},'running cost as the priority'],
+      ['subs','Substance and regulatory standing','A regulated wrapper you can defend anywhere',{luxembourg:3,ireland:3,jersey:1},'substance and regulatory standing as the priority']]},
+    {step:'Question 4 of 4', h:'When do you need to be live?', hint:'Timing rules some options in and others out.',
+     opts:[
+      ['weeks','Within weeks','A first close is already being discussed',{cayman:2,bvi:2},'a first close within weeks'],
+      ['quarter','This quarter','Investors identified, terms not final',{cayman:1,jersey:1},'a launch this quarter'],
+      ['half','Six months or more','Time to build it properly',{luxembourg:2,ireland:2},'six months or more to build it properly']]}
+  ];
+
+  var J={
+    cayman:{n:'Cayman Islands', why:'Cayman remains the default for managers raising from US and Asian institutions — familiar to allocators, quick to establish and supported by the deepest service-provider bench offshore. Ogier has advised on Cayman structures since the industry began.',
+      read:[['Deal · 11 Aug','Ogier&rsquo;s Cayman team advises Pinnacle Acquisition Corporation on US$200 million NYSE IPO'],['Insight · 19 Aug','When compute becomes capital: Cayman, digital assets and the financialisation of AI']],
+      who:{i:'NP',n:'Nathan Powell',r:'Investment Funds · Cayman Islands'}},
+    luxembourg:{n:'Luxembourg', why:'Luxembourg buys you an EU-domiciled, regulated wrapper and a marketing passport across the bloc. The trade is a longer set-up and a genuine substance requirement — both manageable, neither optional.',
+      read:[['Insight · 4 Sept','Luxembourg&rsquo;s new carried interest regime'],['Insight · 11 Aug','Cross-border structuring in UK M&amp;A: outlook for H2 2026 and 2027']],
+      who:{i:'AC',n:'Aurélie Clementz',r:'Legal Services · Luxembourg'}},
+    jersey:{n:'Jersey', why:'Jersey is the pragmatic middle. The private fund regimes launch in days rather than months, UK and European investors know the jurisdiction well, and you carry none of the EU-level regulatory overhead.',
+      read:[['Insight · 11 Aug','Cross-border structuring in UK M&amp;A: outlook for H2 2026 and 2027'],['Insight · 14 Aug','Navigating the latest Register of Overseas Entities requirements']],
+      who:{i:'SD',n:'Simon Dinning',r:'Corporate · Jersey'}},
+    ireland:{n:'Ireland', why:'Ireland suits managers who want a regulated, EU-domiciled product with a mature administration industry behind it — and it is where Ogier&rsquo;s Corporate and Fiduciary business has grown fastest.',
+      read:[['Insight · 21 Aug','Nichola Costello on the trends shaping the future of fund administration in Ireland'],['Newsletter · 14 Aug','Asset Management Essentials: Ireland — Q3 2026']],
+      who:{i:'NC',n:'Nichola Costello',r:'Fund Services · Ireland'}},
+    bvi:{n:'British Virgin Islands', why:'BVI is the lightest-touch and lowest-cost of the offshore options, which makes it a natural fit for first-time managers, smaller funds and digital-asset strategies that need to move quickly.',
+      read:[['Deal · 2 Sept','Ogier advises Instinct Bio on US$288 million de-SPAC business combination'],['Insight · 19 Aug','When compute becomes capital: Cayman, digital assets and the financialisation of AI']],
+      who:{i:'MK',n:'Michael Killourhy',r:'Corporate · British Virgin Islands'}}
+  };
+
+  var idx=0, picks=[];
+  function marks(n){ prog.querySelectorAll('i').forEach(function(el,i){ el.classList.toggle('on', i<=n); }); }
+
+  function drawQ(){
+    marks(idx);
+    var q=Q[idx];
+    stage.innerHTML='<div class="wq"><p class="step">'+q.step+'</p><h4>'+q.h+'</h4>'+
+      '<p class="hint">'+q.hint+'</p><div class="wopts">'+
+      q.opts.map(function(o,i){ return '<button class="wopt" type="button" data-i="'+i+'"><b>'+o[1]+'</b><span>'+o[2]+'</span></button>'; }).join('')+
+      '</div>'+(idx>0?'<button class="wback" type="button" id="wback">← Back</button>':'')+'</div>';
+    stage.querySelectorAll('.wopt').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        picks[idx]=q.opts[+btn.dataset.i];
+        idx++;
+        if(idx<Q.length) drawQ(); else drawResult();
+      });
+    });
+    var back=document.getElementById('wback');
+    if(back) back.addEventListener('click',function(){ idx--; drawQ(); });
+  }
+
+  function drawResult(){
+    marks(3);
+    var score={cayman:0,luxembourg:0,jersey:0,ireland:0,bvi:0};
+    picks.forEach(function(p){ for(var k in p[3]) score[k]+=p[3][k]; });
+    var order=Object.keys(score).sort(function(a,b){ return score[b]-score[a]; });
+    var top=J[order[0]], alt=J[order[1]];
+    var legal = picks[0][0]==='real' ? ['Investment Funds','Real Estate, Infrastructure and Energy Funds','Regulatory','Fund Finance']
+              : picks[0][0]==='digital' ? ['Investment Funds','Technology and Web3','Regulatory','Corporate']
+              : ['Investment Funds','Managers and Sponsors','Regulatory','Fund Finance'];
+    var cf = ['Fund Services','Investor Services','Accounting and Financial Reporting','Regulatory and Compliance Services'];
+    var summary = picks[0][4]+', '+picks[1][4]+', '+picks[2][4]+', and '+picks[3][4];
+
+    stage.innerHTML=
+      '<div class="wres">'+
+        '<p class="step" style="font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--crimson);margin-bottom:14px">Your shortlist</p>'+
+        '<p class="small muted" style="margin:-6px 0 22px;max-width:78ch">Based on '+summary+'.</p>'+
+        '<div class="wres__top">'+
+          '<div>'+
+            '<div class="wpick"><span class="k">Most likely fit</span><h4>'+top.n+'</h4><p>'+top.why+'</p></div>'+
+            '<div class="walt"><span class="k">Worth comparing</span><b>'+alt.n+'</b><p>'+alt.why+'</p></div>'+
+          '</div>'+
+          '<div class="wneed"><h6>What you would need from Ogier</h6>'+
+            '<div class="grp"><span class="hd">Legal</span>'+legal.map(function(x){return '<a href="#c3">'+x+'</a>';}).join('')+'</div>'+
+            '<div class="grp"><span class="hd">Corporate and Fiduciary</span>'+cf.map(function(x){return '<a href="#c3">'+x+'</a>';}).join('')+'</div>'+
+            '<p class="small muted" style="margin:0">One relationship, both sides of the structure.</p>'+
+          '</div>'+
+        '</div>'+
+        '<div class="wres__foot">'+
+          '<div class="gcard" style="padding:18px 20px"><h6 style="font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-60);margin:0 0 12px">Worth reading first</h6>'+
+            top.read.map(function(r){ return '<a class="icard" href="#c3" style="display:block;margin-bottom:14px"><span class="t">'+r[0]+'</span><h5>'+r[1]+'</h5></a>'; }).join('')+'</div>'+
+          '<div class="gcard" style="padding:18px 20px"><h6 style="font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-60);margin:0 0 12px">Your first call</h6>'+
+            '<div class="pcard" style="background:var(--surface)"><div class="who"><span class="av">'+top.who.i+'</span><div><b>'+top.who.n+'</b><small>'+top.who.r+'</small></div></div>'+
+            '<span class="go">Book 15 minutes <span class="chev"></span></span></div>'+'<p class="small muted" style="margin:14px 0 0">Or send a question first — we usually reply the same working day.</p></div>'+
+          '<div class="wcap"><h6>Take this with you</h6><p>We&rsquo;ll email this summary — no newsletter unless you ask for one.</p>'+
+            '<div class="f"><input type="email" placeholder="you@firm.com" aria-label="Email address"><button type="button">Send</button></div></div>'+
+        '</div>'+
+        '<div class="guard" style="margin-top:18px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" stroke-width="2" style="flex:none;margin-top:2px"><path d="M12 3l8 3v6c0 4.5-3.2 8.2-8 9-4.8-.8-8-4.5-8-9V6l8-3z"/><path d="M12 9v4M12 16v.5"/></svg>'+
+          '<span><b>A starting point, not advice.</b> Domicile decisions turn on tax, investor requirements and your own operating model. This shortlist is designed to make the first conversation shorter, not to replace it.</span></div>'+
+        '<button class="wrestart" type="button" id="wrestart">← Start again</button>'+
+      '</div>';
+    document.getElementById('wrestart').addEventListener('click',function(){ idx=0; picks=[]; drawQ(); });
+  }
+  drawQ();
+})();
+</script>
+<!--/JS-->

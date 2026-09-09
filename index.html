@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ogier — website roadmap concepts | ClerksWell</title>
+<meta name="description" content="Concept designs for the Ogier website roadmap, prepared by ClerksWell.">
+<style>
+/* ── Ogier roadmap concepts · ClerksWell ──────────────────────────────
+   Palette sampled from ogier.com computed styles, Sept 2026.
+   Brand face is brownStd (Lineto); Figtree is the closest free stand-in. */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&display=swap');
+
+:root{
+  --ink:#1C1F2A; --ink-80:#4A4C54; --ink-60:#6F6F6F;
+  --slate:#38435B; --slate-dk:#323C51;
+  --crimson:#E40046; --crimson-dk:#DB003D; --crimson-lt:#FF6E93;
+  --surface:#F4F4F4; --surface-2:#EBEBEB; --line:#E0E2E6; --line-soft:#EFF0F2;
+  --white:#fff;
+  --sans:'brownStd','Figtree',Helvetica,Arial,sans-serif;
+  --shadow-lg:0 24px 60px -20px rgba(28,31,42,.28), 0 4px 12px rgba(28,31,42,.06);
+  --shadow-md:0 12px 32px -12px rgba(28,31,42,.22);
+  --shadow-sm:0 2px 8px rgba(28,31,42,.07);
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --maxw:1180px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--white); color:var(--ink);
+  font-family:var(--sans); font-size:17px; line-height:1.65; font-weight:400;
+  letter-spacing:-.01em; -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%}
+h1,h2,h3,h4{margin:0; font-weight:700; letter-spacing:-.022em; line-height:1.12}
+p{margin:0 0 1em}
+a{color:inherit}
+button{font:inherit; color:inherit; cursor:pointer; border:0; background:none}
+:focus-visible{outline:2px solid var(--crimson); outline-offset:3px; border-radius:2px}
+
+/* ── deck chrome ─────────────────────────────────────────────── */
+.deckbar{
+  position:sticky; top:0; z-index:80; background:rgba(255,255,255,.93);
+  backdrop-filter:saturate(1.6) blur(14px); border-bottom:1px solid var(--line);
+}
+.deckbar__in{
+  max-width:var(--maxw); margin:0 auto; padding:0 28px; height:62px;
+  display:flex; align-items:center; gap:28px;
+}
+.deckbar__brand{display:flex; align-items:baseline; gap:10px; font-weight:800; font-size:19px; letter-spacing:-.03em; text-decoration:none}
+.deckbar__brand span{font-weight:400; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-60)}
+.deckbar__nav{display:flex; gap:2px; margin-left:auto; align-items:center}
+.deckbar__nav a{
+  text-decoration:none; font-size:13.5px; font-weight:500; padding:7px 13px; border-radius:100px;
+  color:var(--ink-60); transition:.18s var(--ease);
+}
+.deckbar__nav a:hover{color:var(--ink); background:var(--surface)}
+.deckbar__nav a[aria-current="page"]{color:var(--white); background:var(--ink)}
+.annotoggle{
+  margin-left:14px; font-size:12px; font-weight:600; letter-spacing:.02em;
+  border:1px solid var(--line); border-radius:100px; padding:6px 13px; color:var(--ink-60);
+  transition:.18s var(--ease); white-space:nowrap;
+}
+.annotoggle:hover{border-color:var(--ink); color:var(--ink)}
+.annotoggle[data-on="false"]{background:var(--ink); border-color:var(--ink); color:var(--white)}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px}
+.wrap--narrow{max-width:800px}
+
+/* ── page intro ──────────────────────────────────────────────── */
+.intro{padding:76px 0 8px}
+.eyebrow{
+  font-size:11.5px; font-weight:700; letter-spacing:.17em; text-transform:uppercase;
+  color:var(--crimson); margin:0 0 18px; display:flex; align-items:center; gap:11px;
+}
+.eyebrow::after{content:""; height:1px; flex:1; background:var(--line); max-width:120px}
+.intro h1{font-size:clamp(38px,5.4vw,60px); margin:0 0 22px; max-width:16ch}
+@media (min-width:980px){
+  .intro,.split{display:grid; grid-template-columns:1.08fr .92fr; column-gap:58px; align-items:end}
+  .intro > .eyebrow,.split > .eyebrow{grid-column:1 / -1}
+  .intro h1,.split h2{margin-bottom:0; max-width:15ch}
+  .intro .lede,.split .lede{padding-bottom:5px; margin-bottom:0}
+  .split .read{grid-column:1 / -1; margin-top:46px}
+}
+.intro .lede{font-size:21px; line-height:1.55; color:var(--ink-80); max-width:60ch; font-weight:300}
+.intro .lede strong{font-weight:600; color:var(--ink)}
+
+/* ── generic bits ────────────────────────────────────────────── */
+.rule{height:1px; background:var(--line); border:0; margin:0}
+.section{padding:64px 0}
+.kicker{font-size:12px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--ink-60)}
+.muted{color:var(--ink-60)}
+.small{font-size:14px; line-height:1.6}
+
+/* annotation blocks — hidden in presentation mode */
+.anno{transition:opacity .25s var(--ease)}
+body.present .anno{display:none !important}
+
+.note{
+  border-left:2px solid var(--crimson); background:var(--surface); padding:16px 20px;
+  font-size:14.5px; line-height:1.6; color:var(--ink-80); margin:0 0 26px;
+}
+.note strong{color:var(--ink)}
+
+/* ── content cards (shared by both idea pages) ──────────────── */
+.icard{text-decoration:none; display:block}
+.icard .t{font-size:10.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--crimson)}
+.icard h5{font-size:15px; line-height:1.35; margin:7px 0 6px; font-weight:600; letter-spacing:-.015em}
+.icard:hover h5{color:var(--crimson)}
+.icard .m{font-size:12px; color:var(--ink-60)}
+.pcard{background:var(--surface); padding:16px 18px}
+.pcard .who{display:flex; align-items:center; gap:11px}
+.pcard .av{width:38px; height:38px; border-radius:50%; background:var(--slate); color:#fff; display:grid; place-items:center; font-size:13px; font-weight:600; flex:none}
+.pcard b{display:block; font-size:14px}
+.pcard small{display:block; font-size:11.5px; color:var(--ink-60)}
+.pcard .go{display:inline-flex; align-items:center; gap:7px; margin-top:13px; font-size:13px; font-weight:600; color:var(--crimson)}
+
+/* ── concept scaffolding ─────────────────────────────────────── */
+.concept{padding:70px 0 78px; border-top:1px solid var(--line)}
+.concept__head{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,360px); gap:48px; align-items:start; margin-bottom:38px}
+.concept__num{
+  font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--crimson); margin-bottom:14px;
+}
+.concept__head h2{font-size:clamp(28px,3.4vw,40px); margin:0 0 16px; max-width:20ch}
+.concept__head .sub{font-size:18.5px; line-height:1.55; color:var(--ink-80); font-weight:300; margin:0; max-width:56ch}
+.whylist{list-style:none; margin:0; padding:0; font-size:14.5px; line-height:1.55}
+.whylist li{padding:11px 0 11px 22px; border-top:1px solid var(--line-soft); position:relative; color:var(--ink-80)}
+.whylist li:first-child{border-top:0; padding-top:0}
+.whylist li::before{
+  content:""; position:absolute; left:0; top:19px; width:7px; height:7px;
+  background:var(--crimson); border-radius:50%;
+}
+.whylist li:first-child::before{top:8px}
+.whylist li b{color:var(--ink); font-weight:600}
+
+/* browser frame that holds each live demo */
+.frame{
+  border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--white);
+  box-shadow:var(--shadow-lg);
+}
+.frame__bar{
+  height:38px; display:flex; align-items:center; gap:8px; padding:0 14px;
+  background:var(--surface); border-bottom:1px solid var(--line);
+}
+.frame__dots{display:flex; gap:6px}
+.frame__dots i{width:9px; height:9px; border-radius:50%; background:#D2D4D8; display:block}
+.frame__url{
+  flex:1; text-align:center; font-size:11.5px; color:var(--ink-60); letter-spacing:.01em;
+  font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.frame__tag{
+  font-size:10px; font-weight:700; letter-spacing:.11em; text-transform:uppercase;
+  color:var(--crimson); border:1px solid currentColor; border-radius:100px; padding:2px 8px;
+}
+.frame__body{position:relative}
+
+.demohint{
+  display:flex; align-items:center; gap:9px; font-size:13px; color:var(--ink-60);
+  margin:14px 0 0; font-weight:500;
+}
+.demohint svg{flex:none}
+
+/* delivery footnote per concept */
+.build{
+  margin-top:34px; display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+  background:var(--line); border:1px solid var(--line);
+}
+.build > div{background:var(--white); padding:18px 20px}
+.build dt{font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-60); margin-bottom:6px}
+.build dd{margin:0; font-size:14.5px; line-height:1.5; color:var(--ink)}
+
+/* ── site-chrome mock used inside demos ──────────────────────── */
+.og{font-family:var(--sans); color:var(--ink); background:var(--white)}
+.og-nav{display:flex; align-items:center; padding:18px 30px; gap:26px; background:var(--white); position:relative; z-index:5}
+.og-nav--onhero{background:transparent; position:absolute; inset:0 0 auto; z-index:6}
+.og-logo{font-size:23px; font-weight:800; letter-spacing:-.045em}
+.og-nav ul{display:flex; gap:22px; list-style:none; margin:0 0 0 auto; padding:0; font-size:13.5px; font-weight:400}
+.og-nav--onhero .og-logo,.og-nav--onhero ul{color:var(--white)}
+.og-nav li{white-space:nowrap; opacity:.92}
+
+/* aerial-water hero, evoking ogier.com's video */
+.og-hero{
+  position:relative; min-height:330px; display:flex; align-items:flex-end; overflow:hidden;
+  background:
+    radial-gradient(120% 90% at 78% 18%, rgba(150,182,190,.95) 0%, rgba(80,120,134,.9) 32%, rgba(38,64,78,.95) 62%, rgba(22,38,50,1) 100%),
+    linear-gradient(150deg,#2C4655 0%,#16242F 100%);
+}
+.og-hero::after{
+  content:""; position:absolute; inset:0; opacity:.5; pointer-events:none;
+  background:
+    radial-gradient(38% 32% at 62% 34%, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 70%),
+    radial-gradient(24% 20% at 22% 74%, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 70%),
+    repeating-linear-gradient(122deg, rgba(255,255,255,.055) 0 2px, rgba(255,255,255,0) 2px 13px);
+}
+.og-hero__in{position:relative; z-index:3; padding:100px 30px 46px; max-width:720px}
+.og-hero h1{color:var(--white); font-size:clamp(26px,3.1vw,38px); line-height:1.16; margin:0 0 22px; font-weight:700}
+.og-pill{
+  display:inline-flex; align-items:center; gap:9px; background:var(--crimson); color:var(--white);
+  border-radius:100px; padding:11px 22px; font-size:14px; font-weight:600; text-decoration:none;
+  transition:.2s var(--ease);
+}
+.og-pill:hover{background:var(--crimson-dk)}
+.chev{width:7px; height:7px; border-right:2px solid currentColor; border-top:2px solid currentColor; transform:rotate(45deg); flex:none}
+
+@media (max-width:860px){
+  .concept__head{grid-template-columns:1fr; gap:26px}
+  .og-nav ul{display:none}
+  .build{grid-template-columns:1fr}
+  .deckbar__in{padding:0 18px; gap:12px}
+  .wrap{padding:0 18px}
+  .deckbar__brand span{display:none}
+}
+@media (max-width:780px){
+  .navtail{display:none}
+  .deckbar__in{gap:8px}
+  .deckbar__nav{gap:0}
+  .deckbar__nav a{padding:7px 9px; font-size:12.5px}
+  .annotoggle{margin-left:6px; padding:6px 10px; font-size:11px}
+}
+@media (max-width:430px){
+  .deckbar__nav{overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none; max-width:100%}
+  .deckbar__nav::-webkit-scrollbar{display:none}
+  .deckbar__nav a{white-space:nowrap}
+}
+
+/* citation marker */
+.cite{position:relative; top:-.45em; vertical-align:baseline; line-height:1}
+
+</style>
+<style>
+.hero-ov{
+  background:var(--ink); color:#fff; padding:82px 0 74px; position:relative; overflow:hidden;
+}
+.hero-ov::after{
+  content:""; position:absolute; inset:0; opacity:.55; pointer-events:none;
+  background:
+    radial-gradient(46% 60% at 82% 12%, rgba(228,0,70,.30) 0%, rgba(228,0,70,0) 68%),
+    radial-gradient(40% 50% at 12% 92%, rgba(120,160,175,.22) 0%, rgba(120,160,175,0) 70%),
+    repeating-linear-gradient(118deg, rgba(255,255,255,.045) 0 2px, rgba(255,255,255,0) 2px 15px);
+}
+.hero-ov .wrap{position:relative; z-index:2}
+.hero-ov .eyebrow{color:var(--crimson)}
+.hero-ov .eyebrow::after{background:rgba(255,255,255,.22)}
+.hero-ov h1{font-size:clamp(40px,6vw,68px); line-height:1.06; margin:0 0 24px; max-width:15ch; color:#fff}
+.hero-ov p{font-size:20px; line-height:1.55; font-weight:300; color:rgba(255,255,255,.8); max-width:58ch; margin:0}
+.hero-ov p strong{color:#fff; font-weight:600}
+
+.stats{display:grid; grid-template-columns:repeat(5,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+.stats > div{background:var(--white); padding:26px 22px}
+.stats b{display:block; font-size:clamp(28px,3.4vw,40px); font-weight:700; letter-spacing:-.04em; line-height:1}
+.stats span{display:block; font-size:12.5px; color:var(--ink-60); margin-top:8px; line-height:1.4}
+
+.read{display:grid; grid-template-columns:repeat(2,1fr); gap:0; border:1px solid var(--line)}
+.read > div{padding:30px 32px}
+.read > div:first-child{border-right:1px solid var(--line)}
+.read h3{font-size:19px; margin:0 0 16px; display:flex; align-items:center; gap:10px}
+.read h3 i{width:8px; height:8px; border-radius:50%; flex:none; display:block}
+.read ul{list-style:none; margin:0; padding:0; font-size:14.5px; line-height:1.55}
+.read li{padding:12px 0; border-top:1px solid var(--line-soft); color:var(--ink-80)}
+.read li:first-child{border-top:0}
+.read li b{color:var(--ink); font-weight:600}
+
+.ideas{display:grid; grid-template-columns:repeat(2,1fr); gap:24px; align-items:stretch}
+.idea{
+  display:flex; flex-direction:column; text-decoration:none; border:1px solid var(--line); background:var(--white);
+  transition:.28s var(--ease); position:relative; overflow:hidden;
+}
+.idea:hover{border-color:var(--ink); transform:translateY(-3px); box-shadow:var(--shadow-lg)}
+.idea__top{padding:30px 32px 26px; border-bottom:1px solid var(--line)}
+.idea__n{font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--crimson); margin-bottom:14px}
+.idea__top h3{font-size:26px; margin:0 0 12px; letter-spacing:-.028em; max-width:18ch}
+.idea__top p{font-size:15px; line-height:1.6; color:var(--ink-60); font-weight:300; margin:0}
+.idea__list{padding:8px 32px 12px; flex:1}
+.idea__list div{display:flex; gap:14px; padding:13px 0; border-bottom:1px solid var(--line-soft); font-size:14.5px}
+.idea__list div:last-child{border-bottom:0}
+.idea__list em{font-style:normal; color:var(--crimson); font-weight:700; font-size:11.5px; letter-spacing:.1em; flex:none; padding-top:3px}
+.idea__list b{font-weight:600; letter-spacing:-.015em}
+.idea__list span{display:block; color:var(--ink-60); font-size:13px; line-height:1.45; font-weight:300}
+.idea__go{
+  display:flex; align-items:center; gap:10px; padding:18px 32px; background:var(--surface);
+  font-size:14px; font-weight:600; transition:.25s var(--ease);
+}
+.idea:hover .idea__go{background:var(--ink); color:#fff}
+.idea:hover .idea__go .chev{color:var(--crimson)}
+.idea__go .chev{margin-left:auto; color:var(--crimson)}
+
+@media (max-width:860px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .read,.ideas{grid-template-columns:1fr}
+  .read > div:first-child{border-right:0; border-bottom:1px solid var(--line)}
+}
+</style>
+</head>
+<body class="present">
+<header class="deckbar">
+  <div class="deckbar__in">
+    <a class="deckbar__brand" href="index.html">Ogier <span>Roadmap concepts</span></a>
+    <nav class="deckbar__nav">
+      <a href="index.html" aria-current="page">Overview</a>
+      <a href="idea-one.html">Idea One<span class="navtail"> · Audience routing</span></a>
+      <a href="idea-two.html">Idea Two<span class="navtail"> · Digital concierge</span></a>
+      <button class="annotoggle" id="annotoggle" data-on="false" type="button">Show notes</button>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="hero-ov">
+  <div class="wrap">
+    <p class="eyebrow">ClerksWell for Ogier</p>
+    <h1>Two ideas, six concepts, one roadmap.</h1>
+    <p>Concept designs for the Ogier website — a better way into the firm from the homepage,
+    and an AI concierge for a site that publishes more than most people can navigate.
+    <strong>Every screen here is live: click it.</strong></p>
+  </div>
+</section>
+
+<section class="stats">
+  <div><b>1,300</b><span>people across the firm</span></div>
+  <div><b>13</b><span>locations, four regions</span></div>
+  <div><b>6</b><span>legal systems advised on</span></div>
+  <div><b>4,392</b><span>items in News and insights</span></div>
+  <div><b>7</b><span>filters on that listing</span></div>
+</section>
+
+<section class="wrap section split">
+  <p class="eyebrow">What we found</p>
+  <h2 style="font-size:clamp(28px,3.6vw,40px);margin:0 0 14px;max-width:22ch">A site with a great deal to say, and not enough ways to say it to the right person.</h2>
+  <p class="lede" style="font-size:19px;font-weight:300;color:var(--ink-80);max-width:62ch;margin:0 0 34px">
+    We spent time across the homepage, the Expertise tree, a sample of service pages and the News
+    and insights archive. The craft is not in question — the copy is direct, the tone is
+    distinctive, the publishing cadence is genuinely impressive. The gap is between all that
+    material and the person trying to find their way to the part of it that concerns them.
+  </p>
+
+  <div class="read">
+    <div>
+      <h3><i style="background:var(--ink)"></i> Working well</h3>
+      <ul>
+        <li><b>A confident, human voice.</b> "Focused on results, inspired by people" and "you don't pay for a learning curve" do more than most firms' whole About pages.</li>
+        <li><b>Genuine breadth, clearly organised.</b> The Expertise tree is complete and consistent — services, sub-services and sectors all hold together.</li>
+        <li><b>Publishing few can match.</b> Deals, insights, guides, brochures and newsletters, tagged by service, sector, location, type, topic and author.</li>
+        <li><b>The joined-up model is real.</b> Legal, Corporate and Fiduciary and Consulting genuinely work on the same structures.</li>
+      </ul>
+    </div>
+    <div>
+      <h3><i style="background:var(--crimson)"></i> Where the roadmap starts</h3>
+      <ul>
+        <li><b>The homepage routes by org chart.</b> Three equally-weighted cards named after internal business lines, sitting below the fold on most laptops.</li>
+        <li><b>The joined-up model is invisible.</b> The site presents three separate doors; the pitch is that clients walk through two of them at once.</li>
+        <li><b>The archive needs a guide.</b> Seven filter dimensions across 4,392 items is a research tool, not a discovery tool.</li>
+        <li><b>Nowhere to ask a question.</b> Search is keyword-only, so a visitor with a question has to already know the vocabulary of the answer.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" style="padding:14px 0 70px">
+  <p class="eyebrow">The concepts</p>
+  <div class="ideas">
+
+    <a class="idea" href="idea-one.html">
+      <div class="idea__top">
+        <p class="idea__n">Idea One</p>
+        <h3>Audience routing on the homepage</h3>
+        <p>Three replacements for the Legal / Corporate and Fiduciary / Consulting component —
+        each with a better second screen behind it.</p>
+      </div>
+      <div class="idea__list">
+        <div><em>01</em><span><b>The shelf.</b> <span>A white plane lifted over the hero, routes stacked with hover previews. UBS-adjacent, quickest to ship.</span></span></div>
+        <div><em>02</em><span><b>Three doors.</b> <span>Full-height panels that open into a browsable menu, with the other routes kept as rails.</span></span></div>
+        <div><em>03</em><span><b>Start with the need.</b> <span>Pick a situation; watch two business lines light up together. The one-firm story, made visual.</span></span></div>
+      </div>
+      <span class="idea__go">Open Idea One <span class="chev"></span></span>
+    </a>
+
+    <a class="idea" href="idea-two.html">
+      <div class="idea__top">
+        <p class="idea__n">Idea Two</p>
+        <h3>An intelligent digital concierge</h3>
+        <p>Three levels of ambition for an AI guide, drawing on the Lexus Europe model —
+        from a contextual helper to a lead-generating journey.</p>
+      </div>
+      <div class="idea__list">
+        <div><em>01</em><span><b>Ogier Guide.</b> <span>A dock that knows which page you are on and answers in tables, people cards and reading lists.</span></span></div>
+        <div><em>02</em><span><b>Ask Ogier.</b> <span>Answer-first search over the archive, with visible citations and a jurisdiction switch.</span></span></div>
+        <div><em>03</em><span><b>Structuring Companion.</b> <span>Four questions to a jurisdiction shortlist, the services behind it and a named first call.</span></span></div>
+      </div>
+      <span class="idea__go">Open Idea Two <span class="chev"></span></span>
+    </a>
+
+  </div>
+</section>
+
+<section class="wrap anno" style="padding:0 0 30px">
+  <div class="note">
+    <strong>How to use this pack.</strong> Each concept is a working prototype, not a picture of
+    one — the hovers, clicks and second screens all function, so they can be demonstrated live or
+    screenshotted flat. Notes are hidden by default so the interfaces read clean; <em>Show notes</em> in the
+    top right brings back the commentary and rationale. Interface copy, service names, jurisdictions and article titles are taken
+    from ogier.com and used illustratively; individual names and job titles are placeholders.
+  </div>
+</section>
+</main>
+<footer class="wrap" style="padding-top:52px;padding-bottom:64px;border-top:1px solid var(--line);margin-top:40px">
+  <p class="small muted" style="margin:0;max-width:74ch">
+    Concept designs prepared by <strong style="color:var(--ink)">ClerksWell</strong> for discussion with Ogier.
+    Interface copy, service names, jurisdictions and article titles are taken from ogier.com and used
+    illustratively; individual names and job titles shown in the demos are placeholders. These are
+    interactive concepts, not production code, and nothing here constitutes legal advice.
+  </p>
+</footer>
+<script>
+(function(){
+  var t=document.getElementById('annotoggle');
+  t.addEventListener('click',function(){
+    var on=t.dataset.on==='true';
+    document.body.classList.toggle('present',on);
+    t.dataset.on=on?'false':'true';
+    t.textContent=on?'Show notes':'Hide notes';
+  });
+})();
+</script>
+</body>
+</html>
