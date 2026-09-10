@@ -1,174 +1,14 @@
 <!--HEAD-->
 <style>
 /* ═══ IDEA ONE ═══════════════════════════════════════════════ */
+<!--INCLUDE-CSS: shelf.css-->
 
-/* — Concept A: the shelf — */
-.shelfzone{background:var(--white); padding:0 30px 44px; margin-top:-64px; position:relative; z-index:7}
-.shelf{background:var(--white); box-shadow:var(--shadow-lg); padding:38px 40px 34px; position:relative}
-.shelf::before{content:""; position:absolute; left:0; top:38px; bottom:34px; width:3px; background:var(--crimson)}
-.shelf__root{display:grid; grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr); gap:52px}
-.shelf__lead{padding-left:26px}
-.shelf__lead .k{font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--crimson); display:block; margin-bottom:13px}
-.shelf__lead h3{font-size:27px; line-height:1.2; margin:0 0 13px}
-.shelf__lead p{font-size:15px; line-height:1.6; color:var(--ink-60); margin:0; font-weight:300}
-.shelf__rows{border-top:1px solid var(--line)}
-
-.srow{
-  display:block; width:100%; text-align:left; border-bottom:1px solid var(--line);
-  padding:15px 40px 15px 16px; position:relative; transition:.22s var(--ease); background:none;
-}
-.srow::before{content:""; position:absolute; left:0; top:0; bottom:0; width:0; background:var(--crimson); transition:.22s var(--ease)}
-.srow:hover,.srow:focus-visible{background:var(--surface)}
-.srow:hover::before,.srow:focus-visible::before{width:3px}
-.srow__t{display:block; font-size:19px; font-weight:700; letter-spacing:-.02em; line-height:1.3}
-.srow__d{display:block; font-size:13.5px; color:var(--ink-60); margin-top:3px; line-height:1.5; font-weight:300}
-.srow .chev{position:absolute; right:18px; top:24px; color:var(--crimson); transition:.22s var(--ease)}
-.srow:hover .chev{transform:rotate(45deg) translate(3px,-3px)}
-.srow__pills{
-  display:flex; flex-wrap:wrap; gap:6px; max-height:0; overflow:hidden;
-  transition:max-height .28s var(--ease), margin .28s var(--ease), opacity .2s var(--ease); opacity:0;
-}
-.srow:hover .srow__pills,.srow:focus-visible .srow__pills{max-height:70px; margin-top:11px; opacity:1}
-.srow__pills span{
-  font-size:11.5px; font-weight:500; color:var(--ink-80); background:var(--white);
-  border:1px solid var(--line); border-radius:100px; padding:3px 10px; white-space:nowrap;
-}
-.srow__pills span:last-child{border-style:dashed; color:var(--ink-60)}
-.srow--alt{background:var(--surface); border-bottom:0}
-.srow--alt .srow__t{font-size:16px; color:var(--crimson)}
-
-/* shelf level 2 */
-.sdetail{display:none}
-.shelf[data-view="detail"] .shelf__root{display:none}
-.shelf[data-view="detail"] .sdetail.is-on{display:block; animation:fadein .3s var(--ease)}
-@keyframes fadein{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
-.sback{
-  display:inline-flex; align-items:center; gap:8px; font-size:12.5px; font-weight:600;
-  color:var(--ink-60); margin:0 0 20px 26px; transition:.18s var(--ease);
-}
-.sback:hover{color:var(--crimson)}
-.sback .chev{transform:rotate(-135deg); width:6px; height:6px}
-.sdetail__grid{display:grid; grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr); gap:52px; padding-left:26px}
-.sdetail__lead h4{font-size:25px; margin:0 0 12px}
-.sdetail__lead p{font-size:14.5px; line-height:1.6; color:var(--ink-60); font-weight:300}
-.sdetail__stat{display:flex; gap:22px; margin:20px 0 22px; padding-top:18px; border-top:1px solid var(--line)}
-.sdetail__stat div b{display:block; font-size:23px; font-weight:700; letter-spacing:-.03em}
-.sdetail__stat div span{font-size:11.5px; color:var(--ink-60); letter-spacing:.02em}
-.sdetail__cols{display:grid; grid-template-columns:repeat(3,1fr); gap:8px 26px}
-.sdetail__cols a{
-  display:block; text-decoration:none; font-size:14px; padding:7px 0; border-bottom:1px solid var(--line-soft);
-  color:var(--ink-80); transition:.16s var(--ease);
-}
-.sdetail__cols a:hover{color:var(--crimson); padding-left:5px}
-.sdetail__foot{
-  margin:30px 0 0 26px; padding-top:24px; border-top:1px solid var(--line);
-  display:grid; grid-template-columns:1fr 1fr 250px; gap:26px;
-}
-/* — Concept B: split panels — */
-.panels{display:flex; height:420px; overflow:hidden; background:var(--ink)}
-.panel{position:relative; flex:1 1 33.333%; overflow:hidden; transition:flex-basis .55s var(--ease), flex-grow .55s var(--ease); cursor:pointer; border-right:1px solid rgba(255,255,255,.14)}
-.panel:last-child{border-right:0}
-.panel__bg{position:absolute; inset:0; transition:transform .8s var(--ease), opacity .4s var(--ease)}
-.panel[data-key="legal"] .panel__bg{background:linear-gradient(165deg,#3A5766 0%,#1B2A34 100%)}
-.panel[data-key="cf"] .panel__bg{background:linear-gradient(165deg,#3C4761 0%,#1D2331 100%)}
-.panel[data-key="con"] .panel__bg{background:linear-gradient(165deg,#63384C 0%,#2A1B24 100%)}
-.panel__bg::after{
-  content:""; position:absolute; inset:0; opacity:.5;
-  background:repeating-linear-gradient(118deg,rgba(255,255,255,.07) 0 2px,rgba(255,255,255,0) 2px 14px),
-             radial-gradient(60% 50% at 70% 25%,rgba(255,255,255,.16),rgba(255,255,255,0) 70%);
-}
-.panel:hover .panel__bg{transform:scale(1.05)}
-.panel__face{position:absolute; inset:auto 0 0 0; padding:30px 28px; color:#fff; z-index:2}
-.panel__face .n{font-size:11px; font-weight:700; letter-spacing:.16em; opacity:.6}
-.panel__face h4{font-size:24px; margin:9px 0 0; line-height:1.15}
-.panel__face p{
-  font-size:13.5px; line-height:1.55; font-weight:300; margin:11px 0 0; max-width:34ch;
-  transition:.35s var(--ease); color:rgba(255,255,255,.72);
-}
-.panel__face .go{
-  display:inline-flex; align-items:center; gap:9px; font-size:13px; font-weight:600; margin-top:15px;
-  transition:.35s var(--ease); color:rgba(255,255,255,.85);
-}
-.panel__face .go .chev{color:var(--crimson-lt); transition:.3s var(--ease)}
-.panel:hover .panel__face p{color:rgba(255,255,255,.92)}
-.panel:hover .panel__face .go{color:#fff}
-.panel:hover .panel__face .go .chev{transform:rotate(45deg) translate(3px,-3px)}
-.panels:not([data-open=""]) .panel{flex:0 0 88px}
-.panels:not([data-open=""]) .panel .panel__face{display:none}
-.panels[data-open] .panel.is-open{flex:1 1 auto}
-.panel__rail{display:none; position:absolute; inset:0; z-index:3; color:#fff; padding:26px 0}
-.panels:not([data-open=""]) .panel:not(.is-open) .panel__rail{display:flex; flex-direction:column; align-items:center; gap:18px}
-.panel__rail .rn{font-size:10px; font-weight:700; letter-spacing:.14em; opacity:.55}
-.panel__rail .rt{writing-mode:vertical-rl; font-size:14px; font-weight:600; letter-spacing:.02em; white-space:nowrap}
-.panel:not(.is-open):hover .panel__rail{color:#fff}
-.panel__menu{
-  position:relative; z-index:2; display:none; height:100%; padding:30px 34px; color:#fff;
-  overflow:auto; animation:fadein .4s var(--ease);
-}
-.panel.is-open .panel__menu{display:block}
-.pm__top{display:flex; align-items:flex-start; gap:20px; border-bottom:1px solid rgba(255,255,255,.2); padding-bottom:18px; margin-bottom:20px}
-.pm__top h4{font-size:26px; margin:0 0 8px}
-.pm__top p{font-size:14px; line-height:1.55; font-weight:300; color:rgba(255,255,255,.78); margin:0; max-width:64ch}
-.pmclose{margin-left:auto; flex:none; width:34px; height:34px; border:1px solid rgba(255,255,255,.35); border-radius:50%; color:#fff; display:grid; place-items:center; font-size:16px; transition:.2s var(--ease)}
-.pmclose:hover{background:rgba(255,255,255,.15)}
-.pm__grid{display:grid; grid-template-columns:repeat(4,1fr); gap:26px}
-.pm__grid h6{font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--crimson-lt); margin:0 0 11px}
-.pm__grid a{display:block; text-decoration:none; font-size:13.5px; padding:5px 0; color:rgba(255,255,255,.86); transition:.16s var(--ease)}
-.pm__grid a:hover{color:#fff; padding-left:5px}
-.pm__feat{background:rgba(255,255,255,.08); padding:16px; border-left:2px solid var(--crimson-lt)}
-.pm__feat .t{font-size:10px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--crimson-lt)}
-.pm__feat h5{font-size:14.5px; line-height:1.35; margin:8px 0 8px; font-weight:600}
-.pm__feat small{font-size:11.5px; color:rgba(255,255,255,.6)}
-.pm__cta{
-  display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-top:24px; padding-top:18px;
-  border-top:1px solid rgba(255,255,255,.18); font-size:13.5px;
-}
-.pm__cta a{display:inline-flex; align-items:center; gap:9px; text-decoration:none; font-weight:600; color:#fff}
-.pm__cta a .chev{color:var(--crimson-lt)}
-.pm__cta a:hover .chev{transform:rotate(45deg) translate(3px,-3px)}
-.pm__cta span{color:rgba(255,255,255,.55); font-weight:300; margin-left:auto; font-size:12.5px}
-
-/* — Concept C: route finder — */
-.finder{background:var(--surface); padding:44px 40px 40px}
-.finder__k{font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--crimson); margin-bottom:14px}
-.finder h3{font-size:30px; margin:0 0 6px; letter-spacing:-.028em}
-.finder h3 em{font-style:normal; color:var(--ink-60); font-weight:300}
-.finder__sub{font-size:15px; color:var(--ink-60); font-weight:300; margin:0 0 24px}
-.finder__chips{display:flex; flex-wrap:wrap; gap:9px; margin-bottom:6px}
-.fchip{
-  border:1px solid var(--ink); background:var(--white); border-radius:100px; padding:10px 20px;
-  font-size:14.5px; font-weight:500; transition:.2s var(--ease); letter-spacing:-.01em;
-}
-.fchip:hover{background:var(--ink); color:var(--white)}
-.fchip[aria-pressed="true"]{background:var(--crimson); border-color:var(--crimson); color:var(--white)}
-.finder__out{margin-top:26px; background:var(--white); box-shadow:var(--shadow-md); padding:0; animation:fadein .32s var(--ease)}
-.fo__lines{display:flex; align-items:center; gap:14px; padding:18px 26px; border-bottom:1px solid var(--line); flex-wrap:wrap}
-.fo__lines .lbl{font-size:11.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-60)}
-.lbadge{
-  font-size:13px; font-weight:600; border:1px solid var(--line); border-radius:100px; padding:6px 15px;
-  color:#B9BBC0; background:var(--white); transition:.3s var(--ease);
-}
-.lbadge.on{background:var(--ink); border-color:var(--ink); color:var(--white)}
-.fo__lines .say{font-size:12.5px; color:var(--ink-60); margin-left:auto; font-weight:300}
-.fo__body{display:grid; grid-template-columns:1.15fr .85fr 1.1fr; gap:0}
-.fo__col{padding:24px 26px; border-right:1px solid var(--line)}
-.fo__col:last-child{border-right:0; background:var(--surface)}
-.fo__col h6{font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-60); margin:0 0 13px}
-.fo__col a.svc{display:flex; align-items:center; justify-content:space-between; gap:10px; text-decoration:none; font-size:14.5px; padding:8px 0; border-bottom:1px solid var(--line-soft); transition:.16s var(--ease)}
-.fo__col a.svc:hover{color:var(--crimson)}
-.fo__col a.svc em{font-style:normal; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-60); flex:none}
-.jchips{display:flex; flex-wrap:wrap; gap:6px}
-.jchips span{font-size:12.5px; border:1px solid var(--line); border-radius:100px; padding:4px 12px; color:var(--ink-80)}
-.jchips span.pri{border-color:var(--ink); font-weight:600}
-.finder__alt{display:flex; align-items:center; gap:12px; margin-top:22px; flex-wrap:wrap; font-size:13.5px; color:var(--ink-60)}
-.finder__alt a{font-weight:600; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:1px}
-.finder__alt a:hover{color:var(--crimson); border-color:var(--crimson)}
+<!--INCLUDE-CSS: finder.css-->
 
 @media (max-width:900px){
   .shelf__root,.sdetail__grid{grid-template-columns:1fr; gap:26px}
   .sdetail__cols{grid-template-columns:repeat(2,1fr)}
-  .sdetail__foot,.fo__body,.pm__grid{grid-template-columns:1fr}
-  .panels{height:auto; flex-direction:column}
+  .sdetail__foot,.fo__body{grid-template-columns:1fr}
   .shelfzone{padding:0 16px 30px}
   .shelf{padding:26px 22px}
   .finder{padding:28px 20px}
@@ -179,21 +19,20 @@
 <main>
 <section class="wrap intro">
   <p class="eyebrow">Idea One</p>
-  <h1>Better ways in, for people who don't know our org chart.</h1>
-  <p class="lede">The homepage currently routes visitors through three cards named after Ogier's
-  business lines — <strong>Legal</strong>, <strong>Corporate and Fiduciary</strong> and
-  <strong>Consulting</strong>. Three concepts follow, each keeping those lines intact but making
-  the choice easier to make and the journey after the click worth taking.</p>
+  <h1>Clearer routes into Ogier's expertise.</h1>
+  <p class="lede">The homepage currently directs visitors through three cards — <strong>Legal</strong>,
+  <strong>Corporate and Fiduciary</strong> and <strong>Consulting</strong>. Both concepts below keep
+  those routes, give them greater presence on the page, and make the destination more useful once
+  a visitor has chosen.</p>
 </section>
 
 <section class="wrap anno" style="padding:34px 0 10px">
   <div class="note">
-    <strong>The problem, briefly.</strong> The three cards sit low on the hero, share one visual
-    weight and use internal labels. A fund manager arriving from a Google result does not know
-    whether fund formation is "Legal" or "Corporate and Fiduciary" — and the honest answer is
-    usually <em>both</em>, which is precisely Ogier's advantage and precisely what the current
-    component hides. Every concept below is judged on two things: does it make the first click
-    obvious, and does the second screen reward it?
+    <strong>The opportunity.</strong> The three routes are named after the way the firm is
+    organised. A client with a fund to establish is rarely certain whether that begins with Legal
+    or with Corporate and Fiduciary, and in most cases the answer is both — which is the strength
+    of the model, and the part the current component does not convey. The concepts that follow
+    either defer that question until we have helped, or answer it on the visitor's behalf.
   </div>
 </section>
 
@@ -202,15 +41,15 @@
   <div class="concept__head">
     <div>
       <p class="concept__num">Concept 1</p>
-      <h2>The shelf</h2>
-      <p class="sub">A single white plane lifted over the hero video, headline on the left and the
-      three routes stacked on the right. Closest in spirit to the UBS component — and the safest
-      to build.</p>
+      <h2>A prominent entry panel</h2>
+      <p class="sub">A single panel lifted over the hero, with a short statement of what the firm
+      does on the left and the three routes stacked on the right. Each route previews the services
+      behind it, and opens in place rather than loading a new page.</p>
     </div>
     <ul class="whylist anno">
-      <li><b>Lifts the choice up the page.</b> The card overlaps the hero rather than sitting under it, so the routes are visible without scrolling.</li>
-      <li><b>Hover gives a preview.</b> Each row reveals its sub-services, so people self-select before they commit to a click.</li>
-      <li><b>The second screen stays put.</b> Clicking swaps the card in place, keeping the hero and avoiding a page load.</li>
+      <li><b>Raises the choice up the page.</b> The panel overlaps the hero, so all three routes are visible without scrolling.</li>
+      <li><b>Shows what sits behind each route.</b> A preview of the services within lets visitors choose with confidence.</li>
+      <li><b>Keeps visitors on the homepage.</b> Selecting a route opens the second level in place, preserving the hero.</li>
     </ul>
   </div>
 
@@ -236,10 +75,10 @@
 
             <div class="shelf__root">
               <div class="shelf__lead">
-                <span class="k">Where would you like to start?</span>
-                <h3>Three ways we work with clients — and one route if you're not sure.</h3>
-                <p>1,300 people across 13 locations, advising on BVI, Cayman, Guernsey, Irish,
-                Jersey and Luxembourg law.</p>
+                <span class="k">Where would you like to begin?</span>
+                <h3>Three ways we work with clients — and one route if you are not sure.</h3>
+                <p>1,300 people across 13 locations, advising on the unique combination of BVI,
+                Cayman, Guernsey, Irish, Jersey and Luxembourg law.</p>
               </div>
               <div class="shelf__rows">
                 <button class="srow" data-open="legal" type="button">
@@ -261,8 +100,8 @@
                   <span class="chev"></span>
                 </button>
                 <button class="srow srow--alt" data-open="legal" type="button">
-                  <span class="srow__t">Not sure which you need? Most clients need more than one →</span>
-                  <span class="srow__d">Answer one question and we'll point you at the right teams.</span>
+                  <span class="srow__t">Not sure where to begin? Most matters involve more than one team →</span>
+                  <span class="srow__d">Tell us what you need and we will point you to the right people.</span>
                 </button>
               </div>
             </div>
@@ -273,8 +112,8 @@
                 <div class="sdetail__lead">
                   <h4>Legal</h4>
                   <p>Practical, commercial advice on the unique combination of BVI, Cayman,
-                  Guernsey, Ireland, Jersey and Luxembourg laws — often alongside our Corporate
-                  and Fiduciary teams on the same structure.</p>
+                  Guernsey, Ireland, Jersey and Luxembourg laws — frequently alongside our
+                  Corporate and Fiduciary teams on the same structure.</p>
                   <div class="sdetail__stat">
                     <div><b>14</b><span>SERVICES</span></div>
                     <div><b>6</b><span>LEGAL SYSTEMS</span></div>
@@ -294,8 +133,8 @@
                 <a class="icard" href="#c1"><span class="t">Insight · 4 Sept</span><h5>Luxembourg's new carried interest regime</h5><span class="m">Aurélie Clementz · Luxembourg</span></a>
                 <a class="icard" href="#c1"><span class="t">Deal · 2 Sept</span><h5>Ogier advises Apollo funds on easyJet purchase</h5><span class="m">Corporate · Jersey</span></a>
                 <div class="pcard">
-                  <div class="who"><span class="av">SM</span><div><b>Steve Meiklejohn</b><small>Global Practice Lead</small></div></div>
-                  <span class="go">Talk to the Legal team <span class="chev"></span></span>
+                  <div class="who"><span class="av">SM</span><div><b>Steve Meiklejohn</b><small>Legal · Jersey</small></div></div>
+                  <span class="go">Speak to the Legal team <span class="chev"></span></span>
                 </div>
               </div>
             </div>
@@ -306,7 +145,7 @@
                 <div class="sdetail__lead">
                   <h4>Corporate and Fiduciary</h4>
                   <p>Seamless corporate, funds and private wealth administration across global
-                  financial centres — with Ogier's legal teams on the same side of the table.</p>
+                  financial centres, supported throughout by Ogier's legal teams.</p>
                   <div class="sdetail__stat">
                     <div><b>8</b><span>SERVICES</span></div>
                     <div><b>13</b><span>LOCATIONS</span></div>
@@ -325,7 +164,7 @@
                 <a class="icard" href="#c1"><span class="t">Guide · 10 Aug</span><h5>At a Glance Guide to Trustee and Agency Services</h5><span class="m">Global</span></a>
                 <div class="pcard">
                   <div class="who"><span class="av">NC</span><div><b>Nichola Costello</b><small>Fund Services · Ireland</small></div></div>
-                  <span class="go">Talk to the administration team <span class="chev"></span></span>
+                  <span class="go">Speak to the administration team <span class="chev"></span></span>
                 </div>
               </div>
             </div>
@@ -335,8 +174,8 @@
               <div class="sdetail__grid">
                 <div class="sdetail__lead">
                   <h4>Consulting</h4>
-                  <p>Tailored regulatory guidance for financial services, delivered by people who
-                  have sat on the other side of the regulator's desk.</p>
+                  <p>Tailored regulatory guidance for financial services, delivered with first-hand
+                  sector expertise and supported by e-learning built for the same audiences.</p>
                   <div class="sdetail__stat">
                     <div><b>3</b><span>SERVICES</span></div>
                     <div><b>4</b><span>CORE JURISDICTIONS</span></div>
@@ -345,7 +184,7 @@
                 </div>
                 <div class="sdetail__cols">
                   <a href="#c1">Ogier Regulatory Consulting</a><a href="#c1">Ogier e-learning</a><a href="#c1">eDiscovery Services</a>
-                  <a href="#c1">Cayman AML/CFT training</a><a href="#c1">BVI CRS training</a><a href="#c1">Economic Substance</a>
+                  <a href="#c1">Cayman Islands AML/CFT training</a><a href="#c1">BVI CRS training</a><a href="#c1">Economic Substance</a>
                 </div>
               </div>
               <div class="sdetail__foot">
@@ -353,7 +192,7 @@
                 <a class="icard" href="#c1"><span class="t">Newsletter · 14 Aug</span><h5>Asset Management Essentials: Ireland — Q3 2026</h5><span class="m">Ireland</span></a>
                 <div class="pcard">
                   <div class="who"><span class="av">SW</span><div><b>Stuart Watson</b><small>Regulatory · London</small></div></div>
-                  <span class="go">Talk to the consulting team <span class="chev"></span></span>
+                  <span class="go">Speak to the consulting team <span class="chev"></span></span>
                 </div>
               </div>
             </div>
@@ -365,12 +204,12 @@
   </div>
   <p class="demohint anno">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11.5V5a2 2 0 1 1 4 0v6"/><path d="M13 11V4a2 2 0 1 1 4 0v8"/><path d="M17 11.5V7a2 2 0 1 1 4 0v9a6 6 0 0 1-6 6h-2a7 7 0 0 1-6-4l-2.5-4a2 2 0 0 1 3.2-2.3L9 14"/></svg>
-    Hover a row to preview its services · click to open the second level in place
+    Hover a route to preview its services, then select one to open the second level in place
   </p>
   <dl class="build anno">
-    <div><dt>Effort</dt><dd>Low — one new homepage component, no IA change.</dd></div>
-    <div><dt>Content needed</dt><dd>One sentence per line, plus a curated four services each.</dd></div>
-    <div><dt>Roadmap slot</dt><dd>Phase 1. A quick, visible win in the first release.</dd></div>
+    <div><dt>Effort</dt><dd>Contained. One new homepage component, with no change to the information architecture.</dd></div>
+    <div><dt>Content required</dt><dd>A single sentence per route, and four curated services behind each.</dd></div>
+    <div><dt>Suggested phase</dt><dd>Phase one — a visible improvement that can go live early.</dd></div>
   </dl>
 </section>
 
@@ -379,173 +218,15 @@
   <div class="concept__head">
     <div>
       <p class="concept__num">Concept 2</p>
-      <h2>Three doors</h2>
-      <p class="sub">The three lines become full-height panels with their own character. Choose one
-      and it opens across the whole band into a browsable menu, with the other two kept as rails so
-      switching costs nothing.</p>
+      <h2>Routes led by client need</h2>
+      <p class="sub">Visitors select the matter they have in hand. The site responds by showing
+      which parts of the firm are involved — usually more than one — together with the relevant
+      services, the jurisdictions clients most often choose, and a named contact.</p>
     </div>
     <ul class="whylist anno">
-      <li><b>Gives each line an identity.</b> Right now they are three identical grey boxes; here they get distinct colour and weight.</li>
-      <li><b>No dead end.</b> The unchosen routes stay on screen as rails — visitors who guessed wrong recover in one click.</li>
-      <li><b>Holds a real menu.</b> The open state has room for services, a sector cut and a featured piece, so it can replace a mega-menu drop.</li>
-    </ul>
-  </div>
-
-  <div class="frame">
-    <div class="frame__bar">
-      <div class="frame__dots"><i></i><i></i><i></i></div>
-      <div class="frame__url">ogier.com</div>
-      <div class="frame__tag">Live</div>
-    </div>
-    <div class="frame__body">
-      <div class="panels" id="panels" data-open="">
-
-        <article class="panel" data-key="legal">
-          <div class="panel__bg"></div>
-          <div class="panel__rail"><span class="rn">01</span><span class="rt">Legal</span></div>
-          <div class="panel__face">
-            <span class="n">01</span>
-            <h4>Legal</h4>
-            <p>Practical, commercial advice on BVI, Cayman, Guernsey, Irish, Jersey and Luxembourg law.</p>
-            <span class="go">14 services <span class="chev"></span></span>
-          </div>
-          <div class="panel__menu">
-            <div class="pm__top">
-              <div><h4>Legal</h4><p>Six legal systems, one team. Most instructions run alongside our Corporate and Fiduciary colleagues on the same structure.</p></div>
-              <button class="pmclose" type="button" aria-label="Close">×</button>
-            </div>
-            <div class="pm__grid">
-              <div>
-                <h6>Transactions</h6>
-                <a href="#c2">Banking and Finance</a><a href="#c2">Corporate</a><a href="#c2">Investment Funds</a>
-                <a href="#c2">Listing Services</a><a href="#c2">Private Equity</a>
-              </div>
-              <div>
-                <h6>Risk and disputes</h6>
-                <a href="#c2">Dispute Resolution</a><a href="#c2">Regulatory</a><a href="#c2">Restructuring and Insolvency</a>
-                <a href="#c2">Fraud and Asset Tracing</a><a href="#c2">International Arbitration</a>
-              </div>
-              <div>
-                <h6>People and wealth</h6>
-                <a href="#c2">Private Wealth</a><a href="#c2">Trust Advisory Group</a><a href="#c2">Employment and Immigration</a>
-                <a href="#c2">Relocation Services</a><a href="#c2">Property Law</a>
-              </div>
-              <div class="pm__feat">
-                <span class="t">Insight · 19 Aug</span>
-                <h5>When compute becomes capital: Cayman, digital assets and the financialisation of AI</h5>
-                <small>Racheal Muldoon · Cayman Islands</small>
-              </div>
-            </div>
-            <div class="pm__cta"><a href="#c2">See all 14 Legal services <span class="chev"></span></a><a href="#c2">Speak to the Legal team <span class="chev"></span></a><span>Six legal systems · 13 locations</span></div>
-          </div>
-        </article>
-
-        <article class="panel" data-key="cf">
-          <div class="panel__bg"></div>
-          <div class="panel__rail"><span class="rn">02</span><span class="rt">Corporate and Fiduciary</span></div>
-          <div class="panel__face">
-            <span class="n">02</span>
-            <h4>Corporate and Fiduciary</h4>
-            <p>Corporate, funds and private wealth administration across global financial centres.</p>
-            <span class="go">8 services <span class="chev"></span></span>
-          </div>
-          <div class="panel__menu">
-            <div class="pm__top">
-              <div><h4>Corporate and Fiduciary</h4><p>Administration that sits beside the legal advice rather than after it — one relationship across 13 locations.</p></div>
-              <button class="pmclose" type="button" aria-label="Close">×</button>
-            </div>
-            <div class="pm__grid">
-              <div>
-                <h6>Administration</h6>
-                <a href="#c2">Corporate Services</a><a href="#c2">Fund Services</a><a href="#c2">Private Wealth Services</a>
-                <a href="#c2">Corporate Administration</a><a href="#c2">Investor Services</a>
-              </div>
-              <div>
-                <h6>Governance and control</h6>
-                <a href="#c2">Governance Services</a><a href="#c2">Regulatory and Compliance</a>
-                <a href="#c2">Accounting and Financial Reporting</a><a href="#c2">Real Estate Services</a>
-              </div>
-              <div>
-                <h6>Tools and training</h6>
-                <a href="#c2">Ogier Connect</a><a href="#c2">BVI CRS Training</a>
-                <a href="#c2">Cayman AML/CFT Training</a>
-              </div>
-              <div class="pm__feat">
-                <span class="t">Insight · 21 Aug</span>
-                <h5>Nichola Costello on the trends shaping the future of fund administration in Ireland</h5>
-                <small>Ireland</small>
-              </div>
-            </div>
-            <div class="pm__cta"><a href="#c2">See all 8 Corporate and Fiduciary services <span class="chev"></span></a><a href="#c2">Speak to the administration team <span class="chev"></span></a><span>13 locations · 29 languages</span></div>
-          </div>
-        </article>
-
-        <article class="panel" data-key="con">
-          <div class="panel__bg"></div>
-          <div class="panel__rail"><span class="rn">03</span><span class="rt">Consulting</span></div>
-          <div class="panel__face">
-            <span class="n">03</span>
-            <h4>Consulting</h4>
-            <p>Regulatory guidance for financial services, from people with first-hand sector experience.</p>
-            <span class="go">3 services <span class="chev"></span></span>
-          </div>
-          <div class="panel__menu">
-            <div class="pm__top">
-              <div><h4>Consulting</h4><p>Regulatory change, translated into what your board has to do about it — and the training to make it stick.</p></div>
-              <button class="pmclose" type="button" aria-label="Close">×</button>
-            </div>
-            <div class="pm__grid">
-              <div>
-                <h6>Advisory</h6>
-                <a href="#c2">Ogier Regulatory Consulting</a><a href="#c2">Economic Substance</a>
-                <a href="#c2">Financial crime and AML</a><a href="#c2">Governance reviews</a>
-              </div>
-              <div>
-                <h6>Training</h6>
-                <a href="#c2">Ogier e-learning</a><a href="#c2">Cayman AML/CFT training</a><a href="#c2">BVI CRS training</a>
-              </div>
-              <div>
-                <h6>Investigations</h6>
-                <a href="#c2">eDiscovery Services</a><a href="#c2">Dawn raid services</a><a href="#c2">Investigations support</a>
-              </div>
-              <div class="pm__feat">
-                <span class="t">Insight · 14 Aug</span>
-                <h5>Navigating the latest Register of Overseas Entities requirements</h5>
-                <small>Stuart Watson · London</small>
-              </div>
-            </div>
-            <div class="pm__cta"><a href="#c2">See all Consulting services <span class="chev"></span></a><a href="#c2">Speak to the consulting team <span class="chev"></span></a><span>Regulatory guidance and e-learning</span></div>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </div>
-  <p class="demohint anno">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11.5V5a2 2 0 1 1 4 0v6"/><path d="M13 11V4a2 2 0 1 1 4 0v8"/><path d="M17 11.5V7a2 2 0 1 1 4 0v9a6 6 0 0 1-6 6h-2a7 7 0 0 1-6-4l-2.5-4a2 2 0 0 1 3.2-2.3L9 14"/></svg>
-    Click a panel to open it · the other two stay as rails, click either to switch
-  </p>
-  <dl class="build anno">
-    <div><dt>Effort</dt><dd>Medium — needs art direction and three pieces of hero imagery.</dd></div>
-    <div><dt>Content needed</dt><dd>A grouped menu per line, plus one featured piece each.</dd></div>
-    <div><dt>Roadmap slot</dt><dd>Phase 2, alongside a mega-menu rethink — the same data feeds both.</dd></div>
-  </dl>
-</section>
-
-<!-- ══ CONCEPT 3 ══════════════════════════════════════════ -->
-<section class="wrap concept" id="c3">
-  <div class="concept__head">
-    <div>
-      <p class="concept__num">Concept 3</p>
-      <h2>Start with the need, not the department</h2>
-      <p class="sub">The most ambitious of the three. Visitors pick the situation they are in;
-      Ogier answers by showing which of the three lines are involved — usually more than one — and
-      the exact services, jurisdictions and people behind it.</p>
-    </div>
-    <ul class="whylist anno">
-      <li><b>Turns structure into a selling point.</b> Watching two lines light up together is the "one firm" pitch, made visual.</li>
-      <li><b>Matches how people search.</b> Nobody types "corporate and fiduciary"; they type "set up a fund in Cayman".</li>
-      <li><b>Nothing is lost.</b> The three business lines remain underneath for people who already know what they want.</li>
+      <li><b>Presents the firm as clients experience it.</b> Two teams engaged on a single matter is the clearest expression of how Ogier works.</li>
+      <li><b>Matches the language clients use.</b> Enquiries arrive described as matters, not as departments.</li>
+      <li><b>Loses nothing.</b> The three routes remain beneath, for visitors who already know where they are going.</li>
     </ul>
   </div>
 
@@ -557,52 +238,52 @@
     </div>
     <div class="frame__body">
       <div class="finder">
-        <p class="finder__k">Route finder</p>
-        <h3>I need help with <em>…</em></h3>
-        <p class="finder__sub">Pick the closest. You can change it at any point.</p>
+        <p class="finder__k">Find the right team</p>
+        <h3>What can we help you with?</h3>
+        <p class="finder__sub">Select the closest. You can change it at any point.</p>
         <div class="finder__chips" id="fchips">
-          <button class="fchip" type="button" data-k="funds" aria-pressed="false">Launching or running a fund</button>
-          <button class="fchip" type="button" data-k="deal" aria-pressed="false">Doing a deal</button>
+          <button class="fchip" type="button" data-k="funds" aria-pressed="false">Establishing or running a fund</button>
+          <button class="fchip" type="button" data-k="deal" aria-pressed="false">A corporate transaction</button>
           <button class="fchip" type="button" data-k="dispute" aria-pressed="false">A dispute or investigation</button>
-          <button class="fchip" type="button" data-k="wealth" aria-pressed="false">Family and private wealth</button>
-          <button class="fchip" type="button" data-k="reg" aria-pressed="false">Keeping up with regulation</button>
-          <button class="fchip" type="button" data-k="move" aria-pressed="false">Setting up or moving a business</button>
+          <button class="fchip" type="button" data-k="wealth" aria-pressed="false">Private wealth and family office</button>
+          <button class="fchip" type="button" data-k="reg" aria-pressed="false">Regulatory change</button>
+          <button class="fchip" type="button" data-k="move" aria-pressed="false">Establishing or relocating a business</button>
         </div>
         <div class="finder__out" id="fout" hidden></div>
         <div class="finder__alt">
           <span>Already know what you need?</span>
-          <a href="#c3">Legal</a><a href="#c3">Corporate and Fiduciary</a><a href="#c3">Consulting</a>
-          <a href="#c3">All 13 locations</a>
+          <a href="#c2">Legal</a><a href="#c2">Corporate and Fiduciary</a><a href="#c2">Consulting</a>
+          <a href="#c2">All 13 locations</a>
         </div>
       </div>
     </div>
   </div>
   <p class="demohint anno">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11.5V5a2 2 0 1 1 4 0v6"/><path d="M13 11V4a2 2 0 1 1 4 0v8"/><path d="M17 11.5V7a2 2 0 1 1 4 0v9a6 6 0 0 1-6 6h-2a7 7 0 0 1-6-4l-2.5-4a2 2 0 0 1 3.2-2.3L9 14"/></svg>
-    Pick any of the six situations — watch which business lines light up
+    Select any of the six matters and note which teams are shown as involved
   </p>
   <dl class="build anno">
-    <div><dt>Effort</dt><dd>Medium — the UI is simple; the mapping is the work.</dd></div>
-    <div><dt>Content needed</dt><dd>Six need statements, each mapped to services, jurisdictions and an owner.</dd></div>
-    <div><dt>Roadmap slot</dt><dd>Phase 2–3. The same mapping powers the concierge in Idea Two.</dd></div>
+    <div><dt>Effort</dt><dd>Moderate. The interface is straightforward; agreeing the mapping is the work.</dd></div>
+    <div><dt>Content required</dt><dd>Six client needs, each mapped to services, jurisdictions and an owner.</dd></div>
+    <div><dt>Suggested phase</dt><dd>Phase two — the same mapping supports ideas two and four.</dd></div>
   </dl>
 </section>
 
 <section class="wrap anno" style="padding:12px 0 20px">
   <div class="note" style="border-color:var(--ink)">
-    <strong>Our recommendation.</strong> Ship Concept 1 first — it is a contained build, it lifts
-    the routes above the fold and it can go live without touching the information architecture.
-    Then use it as the shell for Concept 3: the shelf's fourth row is already the entry point for
-    the route finder, and the need-to-service mapping it requires is the same mapping the digital
-    concierge needs. Concept 2 is the option to hold for a broader navigation piece.
+    <strong>Our recommendation.</strong> The entry panel is the contained build and can go live
+    first, without touching the information architecture. It then provides the shell for the second
+    concept: the panel's fourth row is already the entry point for need-led routing, and the
+    mapping of client needs to services that it requires is the same mapping behind ideas two,
+    three and four. It is worth building once, properly.
   </div>
-  <p style="margin-top:26px"><a href="idea-two.html" style="font-weight:600;color:var(--crimson);text-decoration:none">Next: Idea Two — the digital concierge <span class="chev" style="display:inline-block"></span></a></p>
+  <p style="margin-top:26px"><a href="idea-two.html" style="font-weight:600;color:var(--crimson);text-decoration:none">Next: Idea Two — a digital concierge <span class="chev" style="display:inline-block"></span></a></p>
 </section>
 </main>
 
 <!--JS-->
 <script>
-/* ── Concept 1: shelf ─────────────────────────────── */
+/* ── Concept 1: entry panel ───────────────────────── */
 (function(){
   var shelf = document.getElementById('shelf');
   if(!shelf) return;
@@ -622,30 +303,7 @@
   });
 })();
 
-/* ── Concept 2: panels ────────────────────────────── */
-(function(){
-  var wrap = document.getElementById('panels');
-  if(!wrap) return;
-  function open(key){
-    wrap.dataset.open = key;
-    wrap.querySelectorAll('.panel').forEach(function(p){
-      p.classList.toggle('is-open', p.dataset.key === key);
-    });
-  }
-  wrap.querySelectorAll('.panel').forEach(function(p){
-    p.addEventListener('click', function(e){
-      if(e.target.closest('.pmclose')){
-        wrap.dataset.open='';
-        wrap.querySelectorAll('.panel').forEach(function(x){ x.classList.remove('is-open'); });
-        return;
-      }
-      if(p.classList.contains('is-open')) return;
-      open(p.dataset.key);
-    });
-  });
-})();
-
-/* ── Concept 3: route finder ──────────────────────── */
+/* ── Concept 2: need-led routing ──────────────────── */
 (function(){
   var chips = document.getElementById('fchips'), out = document.getElementById('fout');
   if(!chips || !out) return;
@@ -653,7 +311,7 @@
   var DATA = {
     funds: {
       lines:['legal','cf'],
-      say:'Two of our three lines, on one structure.',
+      say:'Two parts of the firm, working on one structure.',
       services:[['Investment Funds','Legal'],['Fund Services','Corp &amp; Fid'],['Fund Finance','Legal'],['Regulatory and Compliance','Corp &amp; Fid']],
       juris:[['Cayman Islands',1],['Luxembourg',1],['Jersey',0],['Ireland',0],['BVI',0]],
       read:{t:'Insight · 21 Aug',h:"Nichola Costello on the trends shaping the future of fund administration in Ireland",m:'Ireland · 3 min read'},
@@ -661,7 +319,7 @@
     },
     deal: {
       lines:['legal','cf'],
-      say:'Legal leads; administration follows the same day.',
+      say:'Legal leads, with administration alongside.',
       services:[['Mergers and Acquisitions','Legal'],['Private Equity','Legal'],['Equity Capital Markets','Legal'],['Corporate Administration','Corp &amp; Fid']],
       juris:[['Cayman Islands',1],['BVI',1],['Jersey',0],['Luxembourg',0]],
       read:{t:'Deal · 2 Sept',h:'Ogier advises Apollo funds on easyJet purchase',m:'Corporate · Jersey'},
@@ -669,15 +327,15 @@
     },
     dispute: {
       lines:['legal','con'],
-      say:'Litigators and forensic consultants, one instruction.',
+      say:'Litigators and consultants under a single instruction.',
       services:[['Dispute Resolution','Legal'],['Fraud and Asset Tracing','Legal'],['Restructuring and Insolvency','Legal'],['eDiscovery Services','Consulting']],
       juris:[['Cayman Islands',1],['BVI',1],['Jersey',0],['Guernsey',0]],
       read:{t:'Insight · 17 Aug',h:'No jurisdiction to wind up a company ex parte: Cayman Court of Appeal rules in latest PetroSaudi judgment',m:'Cayman Islands · 4 min read'},
-      who:{i:'RK',n:'Rondelle Keller',r:'Dispute Resolution · Cayman'}
+      who:{i:'RK',n:'Rondelle Keller',r:'Dispute Resolution · Cayman Islands'}
     },
     wealth: {
       lines:['legal','cf'],
-      say:'Advice and trusteeship under one roof.',
+      say:'Advice and trusteeship from one firm.',
       services:[['Private Wealth','Legal'],['Trust Advisory Group','Legal'],['Private Wealth Services','Corp &amp; Fid'],['Family Office','Legal']],
       juris:[['Jersey',1],['Guernsey',1],['Cayman Islands',0],['Hong Kong',0]],
       read:{t:'Insight · 27 Aug',h:"China's new offshore trust tax rules: what families should consider now",m:'Hong Kong · 3 min read'},
@@ -685,7 +343,7 @@
     },
     reg: {
       lines:['con','legal','cf'],
-      say:'All three lines. This is where the model earns its keep.',
+      say:'All three parts of the firm.',
       services:[['Ogier Regulatory Consulting','Consulting'],['Financial Services and Regulation','Legal'],['Economic Substance','Legal'],['Ogier e-learning','Consulting']],
       juris:[['Cayman Islands',1],['BVI',1],['Guernsey',0],['Jersey',0],['Luxembourg',0]],
       read:{t:'Insight · 14 Aug',h:'Navigating the latest Register of Overseas Entities requirements',m:'Stuart Watson · London'},
@@ -693,7 +351,7 @@
     },
     move: {
       lines:['legal','cf'],
-      say:'From the licence application to the registered office.',
+      say:'From licence application to registered office.',
       services:[['Relocation Services','Legal'],['Employment and Immigration','Legal'],['Corporate Services','Corp &amp; Fid'],['Governance Services','Corp &amp; Fid']],
       juris:[['Jersey',1],['Guernsey',1],['Dubai',0],['Ireland',0],['Cayman Islands',0]],
       read:{t:'Insight · 12 Aug',h:'DIFC prescribed company reforms: greater flexibility for international investors and family offices',m:'Daniel Pacic · Singapore'},
@@ -707,7 +365,7 @@
       return '<span class="lbadge'+(d.lines.indexOf(k)>-1?' on':'')+'">'+NAMES[k]+'</span>';
     }).join('');
     var svc = d.services.map(function(s){
-      return '<a class="svc" href="#c3">'+s[0]+' <em>'+s[1]+'</em></a>';
+      return '<a class="svc" href="#c2">'+s[0]+' <em>'+s[1]+'</em></a>';
     }).join('');
     var jur = d.juris.map(function(j){
       return '<span'+(j[1]?' class="pri"':'')+'>'+j[0]+'</span>';
@@ -716,14 +374,14 @@
       '<div class="fo__lines"><span class="lbl">Teams involved</span>'+badges+
         '<span class="say">'+d.say+'</span></div>'+
       '<div class="fo__body">'+
-        '<div class="fo__col"><h6>What you would need</h6>'+svc+'</div>'+
-        '<div class="fo__col"><h6>Where clients usually do this</h6><div class="jchips">'+jur+'</div>'+
-          '<p class="small muted" style="margin:16px 0 0">Ordered by how often Ogier clients choose it for this need.</p></div>'+
+        '<div class="fo__col"><h6>What this typically involves</h6>'+svc+'</div>'+
+        '<div class="fo__col"><h6>Where clients most often do this</h6><div class="jchips">'+jur+'</div>'+
+          '<p class="small muted" style="margin:16px 0 0">Ordered by how frequently clients choose each jurisdiction for this type of matter.</p></div>'+
         '<div class="fo__col"><h6>Start here</h6>'+
-          '<a class="icard" href="#c3"><span class="t">'+d.read.t+'</span><h5>'+d.read.h+'</h5><span class="m">'+d.read.m+'</span></a>'+
+          '<a class="icard" href="#c2"><span class="t">'+d.read.t+'</span><h5>'+d.read.h+'</h5><span class="m">'+d.read.m+'</span></a>'+
           '<div class="pcard" style="margin-top:18px;background:var(--white)"><div class="who"><span class="av">'+d.who.i+'</span>'+
             '<div><b>'+d.who.n+'</b><small>'+d.who.r+'</small></div></div>'+
-            '<span class="go">Ask a question <span class="chev"></span></span></div>'+
+            '<span class="go">Send an enquiry <span class="chev"></span></span></div>'+
         '</div>'+
       '</div>';
     out.hidden = false;

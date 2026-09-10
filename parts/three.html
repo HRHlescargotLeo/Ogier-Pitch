@@ -1,0 +1,298 @@
+<!--HEAD-->
+<style>
+/* ═══ IDEA THREE ═════════════════════════════════════════════ */
+<!--INCLUDE-CSS: ask.css-->
+
+/* related reading rail + topic following */
+.rrail{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border-top:1px solid var(--line)}
+.rrail a{background:var(--white); padding:20px 22px; text-decoration:none; display:block; transition:.18s var(--ease)}
+.rrail a:hover{background:var(--surface)}
+.rrail .t{font-size:10.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--crimson)}
+.rrail h5{font-size:14.5px; line-height:1.35; margin:8px 0 7px; font-weight:600; letter-spacing:-.015em}
+.rrail a:hover h5{color:var(--crimson)}
+.rrail .m{font-size:11.5px; color:var(--ink-60)}
+.rrail__hd{
+  padding:16px 30px; background:var(--surface); border-top:1px solid var(--line);
+  font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-60);
+}
+.follow{
+  display:flex; align-items:center; gap:16px; flex-wrap:wrap; padding:18px 30px;
+  background:var(--ink); color:#fff;
+}
+.follow b{font-size:14.5px; font-weight:600}
+.follow .tags{display:flex; gap:7px; flex-wrap:wrap}
+.follow .tags span{font-size:12px; border:1px solid rgba(255,255,255,.32); border-radius:100px; padding:4px 12px}
+.follow .gbtn{margin-left:auto; background:var(--crimson)}
+.follow .gbtn:hover{background:#fff; color:var(--ink)}
+.follow small{font-size:12px; color:rgba(255,255,255,.55); width:100%}
+
+/* the current listing, sketched */
+.today{background:var(--surface); padding:22px 26px; border:1px solid var(--line)}
+.today .row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px}
+.today .sel{
+  background:var(--white); border:1px solid var(--line); padding:8px 30px 8px 13px;
+  font-size:12.5px; color:var(--ink-60); position:relative; min-width:118px;
+}
+.today .sel::after{
+  content:""; position:absolute; right:12px; top:13px; width:6px; height:6px;
+  border-right:1.5px solid var(--ink-60); border-bottom:1.5px solid var(--ink-60); transform:rotate(45deg);
+}
+.today .meta{font-size:12.5px; color:var(--ink-60); display:flex; gap:20px; flex-wrap:wrap; border-top:1px solid var(--line); padding-top:13px}
+.today .meta b{color:var(--ink); font-weight:600}
+
+@media (max-width:900px){
+  .ans{grid-template-columns:1fr}
+  .ans__main{border-right:0; border-bottom:1px solid var(--line)}
+  .rrail{grid-template-columns:1fr}
+  .ask-top{padding:24px 20px}
+  .ans__main,.ans__side{padding:22px 20px}
+}
+</style>
+<!--/HEAD-->
+
+<main>
+<section class="wrap intro">
+  <p class="eyebrow">Idea Three</p>
+  <h1>Making the insights library answer the question.</h1>
+  <p class="lede">News and insights holds <strong>4,392</strong> deals, insights, guides, briefings
+  and newsletters, filtered by service, sector, location, type, topic, year and author. It is a
+  formidable body of work. This idea places a layer over it that responds to a question directly,
+  and shows the Ogier articles the response is drawn from.</p>
+</section>
+
+<section class="wrap anno" style="padding:34px 0 4px">
+  <div class="note">
+    <strong>The opportunity.</strong> The listing serves a reader who already knows what they are
+    looking for. A reader who arrives with a question — <em>what has changed for fund managers this
+    quarter?</em> — must first translate it into a combination of filters before the archive can
+    help them. That translation is work the site can do on their behalf, and the material to answer
+    with is already published.
+  </div>
+</section>
+
+<section class="wrap anno" style="padding:8px 0 0">
+  <p class="kicker" style="margin-bottom:14px">The listing today</p>
+  <div class="today">
+    <div class="row">
+      <span class="sel">Select a service</span><span class="sel">Select a sector</span>
+      <span class="sel">Select a location</span><span class="sel">Select a type</span>
+      <span class="sel">Select a topic</span><span class="sel">Select a year</span>
+      <span class="sel">Select a month</span><span class="sel">Select an author</span>
+    </div>
+    <div class="meta">
+      <span>Showing <b>1 – 24</b> out of <b>4,392</b> results</span>
+      <span>Sorted by <b>date</b></span>
+      <span>Author list runs to <b>several hundred</b> names</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ THE CONCEPT ════════════════════════════════════════ -->
+<section class="wrap concept" id="c1" style="margin-top:34px">
+  <div class="concept__head">
+    <div>
+      <p class="concept__num">The concept</p>
+      <h2>Ask the archive</h2>
+      <p class="sub">A question field above the listing. The response is written from Ogier's own
+      published material, every claim numbered to the article it came from, with the jurisdiction
+      switchable so the same question can be asked of a different market.</p>
+    </div>
+    <ul class="whylist anno">
+      <li><b>Sources are the point.</b> For a law firm an unattributed answer is a liability; an attributed one puts the archive to work.</li>
+      <li><b>It returns readers to the articles.</b> The response is a route into the library, not a replacement for it.</li>
+      <li><b>Older work re-enters circulation.</b> Well-argued pieces from previous quarters resurface wherever they answer a live question.</li>
+    </ul>
+  </div>
+
+  <div class="frame">
+    <div class="frame__bar">
+      <div class="frame__dots"><i></i><i></i><i></i></div>
+      <div class="frame__url">ogier.com/news-and-insights</div>
+      <div class="frame__tag">Live</div>
+    </div>
+    <div class="frame__body">
+      <div class="og ask">
+        <div class="ask-top">
+          <p class="k">News and insights</p>
+          <h3>Ask a question of our published work</h3>
+          <div class="askfield">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            <input id="askinput" type="text" value="What has changed for fund managers this quarter?" aria-label="Ask a question">
+            <button type="button" id="askgo">Ask</button>
+          </div>
+          <div class="asksugg">
+            <button type="button">Which recent judgments should I be aware of?</button>
+            <button type="button">What are the current economic substance obligations?</button>
+            <button type="button">What has Ogier published on digital assets?</button>
+          </div>
+        </div>
+
+        <div class="ans">
+          <div class="ans__main">
+            <div class="jtoggle" id="jtoggle">
+              <span class="lbl">Jurisdiction</span>
+              <button type="button" data-j="cayman" aria-pressed="true">Cayman Islands</button>
+              <button type="button" data-j="lux" aria-pressed="false">Luxembourg</button>
+            </div>
+            <h4 id="ans-h">What has changed for fund managers this quarter — Cayman Islands</h4>
+            <div id="ans-b"></div>
+            <div class="guard">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" stroke-width="2" style="flex:none;margin-top:2px"><path d="M12 3l8 3v6c0 4.5-3.2 8.2-8 9-4.8-.8-8-4.5-8-9V6l8-3z"/><path d="M12 9v4M12 16v.5"/></svg>
+              <span><b>A summary of published material, not legal advice.</b> Every statement above is
+              drawn from an Ogier article and linked to it. Nothing here creates a client
+              relationship, and the position on any particular structure will turn on its own facts.</span>
+            </div>
+            <div class="ans__acts">
+              <a class="gbtn" href="#c1">Speak to the funds team <span class="chev"></span></a>
+              <a class="gbtn gbtn--ghost" href="#c1" id="seeall">See all 214 funds insights</a>
+              <span class="fb">Useful? <button type="button" aria-label="Yes">👍</button><button type="button" aria-label="No">👎</button></span>
+            </div>
+          </div>
+          <div class="ans__side">
+            <h6>Drawn from</h6>
+            <div id="ans-src"></div>
+            <h6 style="margin-top:22px">Written by</h6>
+            <div class="pcard" style="background:var(--white)" id="ans-who"></div>
+          </div>
+        </div>
+
+        <div class="rrail__hd">Continue reading</div>
+        <div class="rrail" id="ans-rel"></div>
+
+        <div class="follow">
+          <b>Follow this subject</b>
+          <div class="tags" id="ans-tags"></div>
+          <a class="gbtn" href="#c1">Sign up to receive updates <span class="chev"></span></a>
+          <small>Updates arrive only when we publish on the subjects you have chosen.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="demohint anno">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11.5V5a2 2 0 1 1 4 0v6"/><path d="M13 11V4a2 2 0 1 1 4 0v8"/><path d="M17 11.5V7a2 2 0 1 1 4 0v9a6 6 0 0 1-6 6h-2a7 7 0 0 1-6-4l-2.5-4a2 2 0 0 1 3.2-2.3L9 14"/></svg>
+    Switch the jurisdiction — the response, its sources and the onward reading all change
+  </p>
+</section>
+
+<!-- ══ BY-PRODUCTS ════════════════════════════════════════ -->
+<section class="wrap concept" id="c2">
+  <div class="concept__head">
+    <div>
+      <p class="concept__num">Beyond the reader</p>
+      <h2>Four things this gives the firm</h2>
+      <p class="sub">The value is not only in the answer. A question field over four thousand
+      articles produces information the marketing and knowledge teams do not currently have.</p>
+    </div>
+  </div>
+  <div class="rails">
+    <div>
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>
+      <b>A record of demand</b>
+      <p>Every question asked is a signal. Subjects that come up repeatedly and are answered thinly show exactly where the next briefing should go.</p>
+    </div>
+    <div>
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h16M4 12h16M4 18h9"/><circle cx="19" cy="18" r="2.4"/></svg>
+      <b>Subscription at subject level</b>
+      <p>Sign-up moves from a single list to following a service, a sector or a jurisdiction — better for the reader and better for engagement.</p>
+    </div>
+    <div>
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v10M12 13l4-4M12 13l-4-4"/><path d="M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17"/></svg>
+      <b>The back catalogue earns again</b>
+      <p>Articles published two years ago continue to work wherever they answer a current question, rather than sinking down a date-ordered list.</p>
+    </div>
+    <div>
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <b>Better visibility in search</b>
+      <p>Question-shaped pages with attributed answers are the format search engines and AI assistants increasingly surface.</p>
+    </div>
+  </div>
+  <dl class="build anno" style="margin-top:34px">
+    <div><dt>Effort</dt><dd>Significant. Retrieval quality, accuracy of attribution and editorial sign-off all matter.</dd></div>
+    <div><dt>The real work</dt><dd>A review process: which responses a partner has approved, and how they are retired as the law moves.</dd></div>
+    <div><dt>Suggested phase</dt><dd>Phase three, and worth piloting internally as a knowledge tool before it faces clients.</dd></div>
+  </dl>
+</section>
+
+<section class="wrap anno" style="padding:12px 0 20px">
+  <p><a href="idea-four.html" style="font-weight:600;color:var(--crimson);text-decoration:none">Next: Idea Four — enquiry routing <span class="chev" style="display:inline-block"></span></a></p>
+</section>
+</main>
+
+<!--JS-->
+<script>
+(function(){
+  var tog=document.getElementById('jtoggle'), h=document.getElementById('ans-h'),
+      b=document.getElementById('ans-b'), s=document.getElementById('ans-src'),
+      rel=document.getElementById('ans-rel'), who=document.getElementById('ans-who'),
+      tags=document.getElementById('ans-tags'), seeall=document.getElementById('seeall');
+  if(!tog) return;
+
+  var D={
+    cayman:{
+      h:'What has changed for fund managers this quarter — Cayman Islands',
+      count:'214 Cayman funds insights',
+      body:'<p>Three themes run through Ogier&rsquo;s Cayman publishing this quarter.</p>'+
+        '<p><b>Digital assets and AI infrastructure</b> are increasingly financed through Cayman'+
+        ' vehicles, and the treatment of computing capacity as capital has moved from a theoretical'+
+        ' question to a structuring one.<span class="cite">1</span></p>'+
+        '<p><b>The Grand Court has continued to define the limits of its own supervision.</b> The'+
+        ' latest PetroSaudi judgment confirms there is no jurisdiction to wind up a company ex'+
+        ' parte,<span class="cite">2</span> and the Court has reaffirmed the high threshold for any'+
+        ' derogation from the principle of open justice.<span class="cite">3</span></p>'+
+        '<p><b>Listing activity through Cayman vehicles has recovered</b>, with several NYSE'+
+        ' transactions completing during August.<span class="cite">4</span></p>',
+      src:[['1','When compute becomes capital: Cayman, digital assets and the financialisation of AI','Insight · 19 Aug 2026 · Racheal Muldoon'],
+           ['2','No jurisdiction to wind up a company ex parte: Cayman Court of Appeal rules in latest PetroSaudi judgment','Insight · 17 Aug 2026 · Rondelle Keller'],
+           ['3','Cayman Grand Court reaffirms the high threshold for any derogation from the principle of open justice','Insight · 26 Aug 2026 · Farrah Sbaiti'],
+           ['4','Ogier&rsquo;s Cayman team advises Pinnacle Acquisition Corporation on US$200 million NYSE IPO','Deal · 11 Aug 2026']],
+      who:{i:'RM',n:'Racheal Muldoon',r:'Dispute Resolution · Cayman Islands'},
+      tags:['Investment Funds','Cayman Islands','Technology and Web3'],
+      rel:[['Insight · 24 Aug','First word on non-party discovery: the Grand Court applies new Order 24 Rule 7A in China Shanshui','Holly Johnston · 3 min read'],
+           ['Deal · 2 Sept','Ogier advises Instinct Bio on US$288 million de-SPAC business combination','Cayman Islands, Hong Kong'],
+           ['Guide · 10 Aug','At a Glance Guide to Trustee and Agency Services','Global · 1 min read']]
+    },
+    lux:{
+      h:'What has changed for fund managers this quarter — Luxembourg',
+      count:'96 Luxembourg funds insights',
+      body:'<p>Two developments dominate Ogier&rsquo;s Luxembourg publishing this quarter.</p>'+
+        '<p><b>The new carried interest regime is the significant one.</b> It changes how managers'+
+        ' structure and account for carry, and merits a review of existing arrangements as well as'+
+        ' of anything being raised now.<span class="cite">1</span></p>'+
+        '<p><b>Cross-border structuring for UK transactions has been reassessed</b> for the second'+
+        ' half of 2026 and into 2027, with consequences for Luxembourg holding structures in'+
+        ' particular.<span class="cite">2</span></p>'+
+        '<p>Across the region, <b>fund administration continues to consolidate around substance</b>,'+
+        ' a theme our Irish colleagues have written on at length this quarter.<span class="cite">3</span></p>',
+      src:[['1','Luxembourg&rsquo;s new carried interest regime','Insight · 4 Sept 2026 · Aurélie Clementz'],
+           ['2','Cross-border structuring in UK M&amp;A: outlook for H2 2026 and 2027','Insight · 11 Aug 2026 · Simon Dinning'],
+           ['3','Nichola Costello on the trends shaping the future of fund administration in Ireland','Insight · 21 Aug 2026 · Ireland']],
+      who:{i:'AC',n:'Aurélie Clementz',r:'Legal Services · Luxembourg'},
+      tags:['Investment Funds','Luxembourg','Private Equity'],
+      rel:[['Newsletter · 14 Aug','Asset Management Essentials: Ireland — Q3 2026','Ireland · 28 min read'],
+           ['Insight · 12 Aug','DIFC prescribed company reforms: greater flexibility for international investors and family offices','Daniel Pacic · 3 min read'],
+           ['Insight · 27 Aug','China&rsquo;s new offshore trust tax rules: what families should consider now','Grace Gao · 3 min read']]
+    }
+  };
+
+  function draw(k){
+    var d=D[k];
+    h.textContent=d.h; b.innerHTML=d.body; seeall.textContent='See all '+d.count;
+    s.innerHTML=d.src.map(function(x){
+      return '<a class="src" href="#c1"><span class="n">'+x[0]+'</span><span><b>'+x[1]+'</b><small>'+x[2]+'</small></span></a>';
+    }).join('');
+    who.innerHTML='<div class="who"><span class="av">'+d.who.i+'</span><div><b>'+d.who.n+'</b>'+
+      '<small>'+d.who.r+'</small></div></div><span class="go">Ask a follow-up <span class="chev"></span></span>';
+    tags.innerHTML=d.tags.map(function(t){ return '<span>'+t+'</span>'; }).join('');
+    rel.innerHTML=d.rel.map(function(r){
+      return '<a href="#c1"><span class="t">'+r[0]+'</span><h5>'+r[1]+'</h5><span class="m">'+r[2]+'</span></a>';
+    }).join('');
+  }
+  tog.addEventListener('click',function(e){
+    var btn=e.target.closest('button[data-j]'); if(!btn) return;
+    tog.querySelectorAll('button[data-j]').forEach(function(x){ x.setAttribute('aria-pressed', x===btn?'true':'false'); });
+    draw(btn.dataset.j);
+  });
+  draw('cayman');
+})();
+</script>
+<!--/JS-->

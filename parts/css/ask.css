@@ -1,0 +1,38 @@
+/* — Concept B: ask-first search — */
+.ask{background:var(--white)}
+.ask-top{background:var(--ink); padding:34px 34px 30px; color:#fff}
+.ask-top .k{font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--crimson); margin-bottom:12px}
+.ask-top h3{font-size:26px; margin:0 0 18px; color:#fff; max-width:24ch}
+.askfield{display:flex; align-items:center; gap:12px; background:#fff; padding:13px 16px}
+.askfield svg{flex:none; stroke:var(--crimson)}
+.askfield input{flex:1; border:0; font:inherit; font-size:15px; color:var(--ink); background:none; outline:none; min-width:0}
+.askfield button{background:var(--crimson); color:#fff; padding:8px 18px; font-size:13px; font-weight:600; border-radius:100px; flex:none}
+.asksugg{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px}
+.asksugg button{
+  font-size:12.5px; color:rgba(255,255,255,.85); border:1px solid rgba(255,255,255,.28);
+  border-radius:100px; padding:6px 14px; transition:.18s var(--ease); text-align:left;
+}
+.asksugg button:hover{background:#fff; color:var(--ink); border-color:#fff}
+.ans{display:grid; grid-template-columns:1fr 288px; gap:0; border-top:1px solid var(--line)}
+.ans__main{padding:26px 30px; border-right:1px solid var(--line); min-width:0}
+.ans__side{padding:26px 22px; background:var(--surface)}
+.jtoggle{display:flex; gap:7px; margin-bottom:20px; flex-wrap:wrap; align-items:center}
+.jtoggle .lbl{font-size:11px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-60); margin-right:4px}
+.jtoggle button{font-size:12.5px; border:1px solid var(--line); border-radius:100px; padding:5px 14px; font-weight:500; transition:.18s var(--ease)}
+.jtoggle button[aria-pressed="true"]{background:var(--ink); border-color:var(--ink); color:#fff}
+.ans__main h4{font-size:20px; margin:0 0 14px; letter-spacing:-.025em}
+.ans__main p{font-size:15.5px; line-height:1.7; color:var(--ink-80); font-weight:300}
+.cite{
+  display:inline-block; font-size:10px; font-weight:700; color:var(--crimson); vertical-align:super;
+  border:1px solid currentColor; border-radius:3px; padding:0 3px; margin-left:2px; line-height:1.4; cursor:pointer;
+}
+.ans__acts{display:flex; gap:9px; align-items:center; margin-top:22px; padding-top:18px; border-top:1px solid var(--line); flex-wrap:wrap}
+.ans__acts .fb{margin-left:auto; font-size:12.5px; color:var(--ink-60); display:flex; align-items:center; gap:9px}
+.ans__acts .fb button{border:1px solid var(--line); border-radius:100px; width:28px; height:28px; display:grid; place-items:center; font-size:12px}
+.ans__acts .fb button:hover{border-color:var(--ink)}
+.ans__side h6{font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-60); margin:0 0 13px}
+.src{display:flex; gap:11px; padding:11px 0; border-bottom:1px solid var(--line); text-decoration:none}
+.src .n{font-size:10px; font-weight:700; color:var(--crimson); border:1px solid currentColor; border-radius:3px; padding:1px 4px; height:fit-content; flex:none}
+.src b{display:block; font-size:13px; font-weight:600; line-height:1.35; letter-spacing:-.012em}
+.src small{font-size:11px; color:var(--ink-60)}
+.src:hover b{color:var(--crimson)}

@@ -6,13 +6,17 @@ ROOT = pathlib.Path(__file__).parent
 CSS  = (ROOT / "parts/_shared.css").read_text()
 
 PAGES = [
-    ("index.html",     "overview", "Ogier — website roadmap concepts | ClerksWell"),
-    ("idea-one.html",  "one",      "Idea One: Audience routing | Ogier roadmap concepts"),
-    ("idea-two.html",  "two",      "Idea Two: Digital concierge | Ogier roadmap concepts"),
+    ("index.html",      "overview", "Ogier — website roadmap concepts | ClerksWell"),
+    ("idea-one.html",   "one",      "Idea One: Routes into our expertise | Ogier roadmap concepts"),
+    ("idea-two.html",   "two",      "Idea Two: A digital concierge | Ogier roadmap concepts"),
+    ("idea-three.html", "three",    "Idea Three: News and insights | Ogier roadmap concepts"),
+    ("idea-four.html",  "four",     "Idea Four: Enquiry routing | Ogier roadmap concepts"),
 ]
 NAV = [("index.html","Overview","","overview"),
-       ("idea-one.html","Idea One"," · Audience routing","one"),
-       ("idea-two.html","Idea Two"," · Digital concierge","two")]
+       ("idea-one.html","One"," · Routes in","one"),
+       ("idea-two.html","Two"," · Concierge","two"),
+       ("idea-three.html","Three"," · Insights","three"),
+       ("idea-four.html","Four"," · Enquiries","four")]
 
 SHELL = """<!doctype html>
 <html lang="en-GB">
@@ -60,6 +64,9 @@ SHELL = """<!doctype html>
 
 for filename, key, title in PAGES:
     src = (ROOT / f"parts/{key}.html").read_text()
+    for inc in re.findall(r"<!--INCLUDE-CSS:\s*([\w.\-]+)\s*-->", src):
+        src = src.replace(f"<!--INCLUDE-CSS: {inc}-->",
+                          (ROOT / f"parts/css/{inc}").read_text().rstrip())
     headextra, jsextra = "", ""
     m = re.search(r"<!--HEAD-->(.*?)<!--/HEAD-->", src, re.S)
     if m:

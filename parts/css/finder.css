@@ -1,0 +1,35 @@
+/* — Concept C: route finder — */
+.finder{background:var(--surface); padding:44px 40px 40px}
+.finder__k{font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--crimson); margin-bottom:14px}
+.finder h3{font-size:30px; margin:0 0 6px; letter-spacing:-.028em}
+.finder h3 em{font-style:normal; color:var(--ink-60); font-weight:300}
+.finder__sub{font-size:15px; color:var(--ink-60); font-weight:300; margin:0 0 24px}
+.finder__chips{display:flex; flex-wrap:wrap; gap:9px; margin-bottom:6px}
+.fchip{
+  border:1px solid var(--ink); background:var(--white); border-radius:100px; padding:10px 20px;
+  font-size:14.5px; font-weight:500; transition:.2s var(--ease); letter-spacing:-.01em;
+}
+.fchip:hover{background:var(--ink); color:var(--white)}
+.fchip[aria-pressed="true"]{background:var(--crimson); border-color:var(--crimson); color:var(--white)}
+.finder__out{margin-top:26px; background:var(--white); box-shadow:var(--shadow-md); padding:0; animation:fadein .32s var(--ease)}
+.fo__lines{display:flex; align-items:center; gap:14px; padding:18px 26px; border-bottom:1px solid var(--line); flex-wrap:wrap}
+.fo__lines .lbl{font-size:11.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-60)}
+.lbadge{
+  font-size:13px; font-weight:600; border:1px solid var(--line); border-radius:100px; padding:6px 15px;
+  color:#B9BBC0; background:var(--white); transition:.3s var(--ease);
+}
+.lbadge.on{background:var(--ink); border-color:var(--ink); color:var(--white)}
+.fo__lines .say{font-size:12.5px; color:var(--ink-60); margin-left:auto; font-weight:300}
+.fo__body{display:grid; grid-template-columns:1.15fr .85fr 1.1fr; gap:0}
+.fo__col{padding:24px 26px; border-right:1px solid var(--line)}
+.fo__col:last-child{border-right:0; background:var(--surface)}
+.fo__col h6{font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-60); margin:0 0 13px}
+.fo__col a.svc{display:flex; align-items:center; justify-content:space-between; gap:10px; text-decoration:none; font-size:14.5px; padding:8px 0; border-bottom:1px solid var(--line-soft); transition:.16s var(--ease)}
+.fo__col a.svc:hover{color:var(--crimson)}
+.fo__col a.svc em{font-style:normal; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-60); flex:none}
+.jchips{display:flex; flex-wrap:wrap; gap:6px}
+.jchips span{font-size:12.5px; border:1px solid var(--line); border-radius:100px; padding:4px 12px; color:var(--ink-80)}
+.jchips span.pri{border-color:var(--ink); font-weight:600}
+.finder__alt{display:flex; align-items:center; gap:12px; margin-top:22px; flex-wrap:wrap; font-size:13.5px; color:var(--ink-60)}
+.finder__alt a{font-weight:600; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:1px}
+.finder__alt a:hover{color:var(--crimson); border-color:var(--crimson)}

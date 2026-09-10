@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Idea Three: News and insights | Ogier roadmap concepts</title>
+<meta name="description" content="Concept designs for the Ogier website roadmap, prepared by ClerksWell.">
+<style>
+/* ── Ogier roadmap concepts · ClerksWell ──────────────────────────────
+   Palette sampled from ogier.com computed styles, Sept 2026.
+   Brand face is brownStd (Lineto); Figtree is the closest free stand-in. */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&display=swap');
+
+:root{
+  --ink:#1C1F2A; --ink-80:#4A4C54; --ink-60:#6F6F6F;
+  --slate:#38435B; --slate-dk:#323C51;
+  --crimson:#E40046; --crimson-dk:#DB003D; --crimson-lt:#FF6E93;
+  --surface:#F4F4F4; --surface-2:#EBEBEB; --line:#E0E2E6; --line-soft:#EFF0F2;
+  --white:#fff;
+  --sans:'brownStd','Figtree',Helvetica,Arial,sans-serif;
+  --shadow-lg:0 24px 60px -20px rgba(28,31,42,.28), 0 4px 12px rgba(28,31,42,.06);
+  --shadow-md:0 12px 32px -12px rgba(28,31,42,.22);
+  --shadow-sm:0 2px 8px rgba(28,31,42,.07);
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --maxw:1180px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--white); color:var(--ink);
+  font-family:var(--sans); font-size:17px; line-height:1.65; font-weight:400;
+  letter-spacing:-.01em; -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%}
+h1,h2,h3,h4{margin:0; font-weight:700; letter-spacing:-.022em; line-height:1.12}
+p{margin:0 0 1em}
+a{color:inherit}
+button{font:inherit; color:inherit; cursor:pointer; border:0; background:none}
+:focus-visible{outline:2px solid var(--crimson); outline-offset:3px; border-radius:2px}
+
+/* ── deck chrome ─────────────────────────────────────────────── */
+.deckbar{
+  position:sticky; top:0; z-index:80; background:rgba(255,255,255,.93);
+  backdrop-filter:saturate(1.6) blur(14px); border-bottom:1px solid var(--line);
+}
+.deckbar__in{
+  max-width:var(--maxw); margin:0 auto; padding:0 28px; height:62px;
+  display:flex; align-items:center; gap:28px;
+}
+.deckbar__brand{display:flex; align-items:baseline; gap:10px; font-weight:800; font-size:19px; letter-spacing:-.03em; text-decoration:none}
+.deckbar__brand span{font-weight:400; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-60)}
+.deckbar__nav{display:flex; gap:2px; margin-left:auto; align-items:center}
+.deckbar__nav a{
+  text-decoration:none; font-size:13.5px; font-weight:500; padding:7px 13px; border-radius:100px;
+  color:var(--ink-60); transition:.18s var(--ease);
+}
+.deckbar__nav a:hover{color:var(--ink); background:var(--surface)}
+.deckbar__nav a[aria-current="page"]{color:var(--white); background:var(--ink)}
+.annotoggle{
+  margin-left:14px; font-size:12px; font-weight:600; letter-spacing:.02em;
+  border:1px solid var(--line); border-radius:100px; padding:6px 13px; color:var(--ink-60);
+  transition:.18s var(--ease); white-space:nowrap;
+}
+.annotoggle:hover{border-color:var(--ink); color:var(--ink)}
+.annotoggle[data-on="false"]{background:var(--ink); border-color:var(--ink); color:var(--white)}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px}
+.wrap--narrow{max-width:800px}
+
+/* ── page intro ──────────────────────────────────────────────── */
+.intro{padding:76px 0 8px}
+.eyebrow{
+  font-size:11.5px; font-weight:700; letter-spacing:.17em; text-transform:uppercase;
+  color:var(--crimson); margin:0 0 18px; display:flex; align-items:center; gap:11px;
+}
+.eyebrow::after{content:""; height:1px; flex:1; background:var(--line); max-width:120px}
+.intro h1{font-size:clamp(38px,5.4vw,60px); margin:0 0 22px; max-width:16ch}
+@media (min-width:980px){
+  .intro,.split{display:grid; grid-template-columns:1.08fr .92fr; column-gap:58px; align-items:end}
+  .intro > .eyebrow,.split > .eyebrow{grid-column:1 / -1}
+  .intro h1,.split h2{margin-bottom:0; max-width:15ch}
+  .intro .lede,.split .lede{padding-bottom:5px; margin-bottom:0}
+  .split .read{grid-column:1 / -1; margin-top:46px}
+}
+.intro .lede{font-size:21px; line-height:1.55; color:var(--ink-80); max-width:60ch; font-weight:300}
+.intro .lede strong{font-weight:600; color:var(--ink)}
+
+/* ── generic bits ────────────────────────────────────────────── */
+.rule{height:1px; background:var(--line); border:0; margin:0}
+.section{padding:64px 0}
+.kicker{font-size:12px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--ink-60)}
+.muted{color:var(--ink-60)}
+.small{font-size:14px; line-height:1.6}
+
+/* annotation blocks — hidden in presentation mode */
+.anno{transition:opacity .25s var(--ease)}
+body.present .anno{display:none !important}
+/* with the commentary hidden, let the headings use the full measure */
+body.present .concept__head{grid-template-columns:1fr; margin-bottom:32px}
+body.present .concept__head h2{max-width:24ch}
+body.present .concept__head .sub{max-width:74ch}
+
+.note{
+  border-left:2px solid var(--crimson); background:var(--surface); padding:16px 20px;
+  font-size:14.5px; line-height:1.6; color:var(--ink-80); margin:0 0 26px;
+}
+.note strong{color:var(--ink)}
+
+/* ── buttons, guardrails, plain cards (shared) ──────────────── */
+.gcard{background:var(--white); border:1px solid var(--line)}
+.guard{
+  display:flex; gap:10px; align-items:flex-start; background:#FFF6F8; border-left:2px solid var(--crimson);
+  padding:11px 14px; font-size:12.5px; line-height:1.5; color:var(--ink-80);
+}
+.guard b{color:var(--ink); font-weight:600}
+.gbtn{
+  display:inline-flex; align-items:center; gap:8px; background:var(--ink); color:#fff;
+  border-radius:100px; padding:9px 18px; font-size:13px; font-weight:600; text-decoration:none;
+  transition:.2s var(--ease);
+}
+.gbtn:hover{background:var(--crimson)}
+.gbtn--ghost{background:none; color:var(--ink); border:1px solid var(--line)}
+.gbtn--ghost:hover{background:var(--surface); color:var(--ink); border-color:var(--ink)}
+
+/* ── content cards (shared across idea pages) ──────────────── */
+.icard{text-decoration:none; display:block}
+.icard .t{font-size:10.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--crimson)}
+.icard h5{font-size:15px; line-height:1.35; margin:7px 0 6px; font-weight:600; letter-spacing:-.015em}
+.icard:hover h5{color:var(--crimson)}
+.icard .m{font-size:12px; color:var(--ink-60)}
+.pcard{background:var(--surface); padding:16px 18px}
+.pcard .who{display:flex; align-items:center; gap:11px}
+.pcard .av{width:38px; height:38px; border-radius:50%; background:var(--slate); color:#fff; display:grid; place-items:center; font-size:13px; font-weight:600; flex:none}
+.pcard b{display:block; font-size:14px}
+.pcard small{display:block; font-size:11.5px; color:var(--ink-60)}
+.pcard .go{display:inline-flex; align-items:center; gap:7px; margin-top:13px; font-size:13px; font-weight:600; color:var(--crimson)}
+
+/* ── four-across principle cards (shared) ───────────────────── */
+.rails{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line)}
+.rails > div{background:var(--white); padding:22px 24px}
+.rails b{display:block; font-size:15px; font-weight:600; letter-spacing:-.018em; margin-bottom:8px}
+.rails p{font-size:13.5px; line-height:1.55; color:var(--ink-60); font-weight:300; margin:0}
+.rails .ic{width:26px; height:26px; margin-bottom:13px; color:var(--crimson)}
+@media (max-width:900px){ .rails{grid-template-columns:1fr} }
+
+/* ── concept scaffolding ─────────────────────────────────────── */
+.concept{padding:70px 0 78px; border-top:1px solid var(--line)}
+.concept__head{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,360px); gap:48px; align-items:start; margin-bottom:38px}
+.concept__num{
+  font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--crimson); margin-bottom:14px;
+}
+.concept__head h2{font-size:clamp(28px,3.4vw,40px); margin:0 0 16px; max-width:20ch}
+.concept__head .sub{font-size:18.5px; line-height:1.55; color:var(--ink-80); font-weight:300; margin:0; max-width:56ch}
+.whylist{list-style:none; margin:0; padding:0; font-size:14.5px; line-height:1.55}
+.whylist li{padding:11px 0 11px 22px; border-top:1px solid var(--line-soft); position:relative; color:var(--ink-80)}
+.whylist li:first-child{border-top:0; padding-top:0}
+.whylist li::before{
+  content:""; position:absolute; left:0; top:19px; width:7px; height:7px;
+  background:var(--crimson); border-radius:50%;
+}
+.whylist li:first-child::before{top:8px}
+.whylist li b{color:var(--ink); font-weight:600}
+
+/* browser frame that holds each live demo */
+.frame{
+  border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--white);
+  box-shadow:var(--shadow-lg);
+}
+.frame__bar{
+  height:38px; display:flex; align-items:center; gap:8px; padding:0 14px;
+  background:var(--surface); border-bottom:1px solid var(--line);
+}
+.frame__dots{display:flex; gap:6px}
+.frame__dots i{width:9px; height:9px; border-radius:50%; background:#D2D4D8; display:block}
+.frame__url{
+  flex:1; text-align:center; font-size:11.5px; color:var(--ink-60); letter-spacing:.01em;
+  font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.frame__tag{
+  font-size:10px; font-weight:700; letter-spacing:.11em; text-transform:uppercase;
+  color:var(--crimson); border:1px solid currentColor; border-radius:100px; padding:2px 8px;
+}
+.frame__body{position:relative}
+
+.demohint{
+  display:flex; align-items:center; gap:9px; font-size:13px; color:var(--ink-60);
+  margin:14px 0 0; font-weight:500;
+}
+.demohint svg{flex:none}
+
+/* delivery footnote per concept */
+.build{
+  margin-top:34px; display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+  background:var(--line); border:1px solid var(--line);
+}
+.build > div{background:var(--white); padding:18px 20px}
+.build dt{font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-60); margin-bottom:6px}
+.build dd{margin:0; font-size:14.5px; line-height:1.5; color:var(--ink)}
+
+/* ── site-chrome mock used inside demos ──────────────────────── */
+.og{font-family:var(--sans); color:var(--ink); background:var(--white)}
+.og-nav{display:flex; align-items:center; padding:18px 30px; gap:26px; background:var(--white); position:relative; z-index:5}
+.og-nav--onhero{background:transparent; position:absolute; inset:0 0 auto; z-index:6}
+.og-logo{font-size:23px; font-weight:800; letter-spacing:-.045em}
+.og-nav ul{display:flex; gap:22px; list-style:none; margin:0 0 0 auto; padding:0; font-size:13.5px; font-weight:400}
+.og-nav--onhero .og-logo,.og-nav--onhero ul{color:var(--white)}
+.og-nav li{white-space:nowrap; opacity:.92}
+
+/* aerial-water hero, evoking ogier.com's video */
+.og-hero{
+  position:relative; min-height:330px; display:flex; align-items:flex-end; overflow:hidden;
+  background:
+    radial-gradient(120% 90% at 78% 18%, rgba(150,182,190,.95) 0%, rgba(80,120,134,.9) 32%, rgba(38,64,78,.95) 62%, rgba(22,38,50,1) 100%),
+    linear-gradient(150deg,#2C4655 0%,#16242F 100%);
+}
+.og-hero::after{
+  content:""; position:absolute; inset:0; opacity:.5; pointer-events:none;
+  background:
+    radial-gradient(38% 32% at 62% 34%, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 70%),
+    radial-gradient(24% 20% at 22% 74%, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 70%),
+    repeating-linear-gradient(122deg, rgba(255,255,255,.055) 0 2px, rgba(255,255,255,0) 2px 13px);
+}
+.og-hero__in{position:relative; z-index:3; padding:100px 30px 46px; max-width:720px}
+.og-hero h1{color:var(--white); font-size:clamp(26px,3.1vw,38px); line-height:1.16; margin:0 0 22px; font-weight:700}
+.og-pill{
+  display:inline-flex; align-items:center; gap:9px; background:var(--crimson); color:var(--white);
+  border-radius:100px; padding:11px 22px; font-size:14px; font-weight:600; text-decoration:none;
+  transition:.2s var(--ease);
+}
+.og-pill:hover{background:var(--crimson-dk)}
+.chev{width:7px; height:7px; border-right:2px solid currentColor; border-top:2px solid currentColor; transform:rotate(45deg); flex:none}
+
+@media (max-width:860px){
+  .concept__head{grid-template-columns:1fr; gap:26px}
+  .og-nav ul{display:none}
+  .build{grid-template-columns:1fr}
+  .deckbar__in{padding:0 18px; gap:12px}
+  .wrap{padding:0 18px}
+  .deckbar__brand span{display:none}
+}
+@media (max-width:1180px){
+  .navtail{display:none}
+}
+@media (max-width:780px){
+  .deckbar__in{gap:8px}
+  .deckbar__nav{gap:0}
+  .deckbar__nav a{padding:7px 9px; font-size:12.5px}
+  .annotoggle{margin-left:6px; padding:6px 10px; font-size:11px}
+}
+@media (max-width:430px){
+  .deckbar__nav{overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none; max-width:100%}
+  .deckbar__nav::-webkit-scrollbar{display:none}
+  .deckbar__nav a{white-space:nowrap}
+}
+
+/* citation marker */
+.cite{position:relative; top:-.45em; vertical-align:baseline; line-height:1}
+
+</style>
+<style>
+/* ═══ IDEA THREE ═════════════════════════════════════════════ */
+/* — Concept B: ask-first search — */
+.ask{background:var(--white)}
+.ask-top{background:var(--ink); padding:34px 34px 30px; color:#fff}
+.ask-top .k{font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--crimson); margin-bottom:12px}
+.ask-top h3{font-size:26px; margin:0 0 18px; color:#fff; max-width:24ch}
+.askfield{display:flex; align-items:center; gap:12px; background:#fff; padding:13px 16px}
+.askfield svg{flex:none; stroke:var(--crimson)}
+.askfield input{flex:1; border:0; font:inherit; font-size:15px; color:var(--ink); background:none; outline:none; min-width:0}
+.askfield button{background:var(--crimson); color:#fff; padding:8px 18px; font-size:13px; font-weight:600; border-radius:100px; flex:none}
+.asksugg{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px}
+.asksugg button{
+  font-size:12.5px; color:rgba(255,255,255,.85); border:1px solid rgba(255,255,255,.28);
+  border-radius:100px; padding:6px 14px; transition:.18s var(--ease); text-align:left;
+}
+.asksugg button:hover{background:#fff; color:var(--ink); border-color:#fff}
+.ans{display:grid; grid-template-columns:1fr 288px; gap:0; border-top:1px solid var(--line)}
+.ans__main{padding:26px 30px; border-right:1px solid var(--line); min-width:0}
+.ans__side{padding:26px 22px; background:var(--surface)}
+.jtoggle{display:flex; gap:7px; margin-bottom:20px; flex-wrap:wrap; align-items:center}
+.jtoggle .lbl{font-size:11px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-60); margin-right:4px}
+.jtoggle button{font-size:12.5px; border:1px solid var(--line); border-radius:100px; padding:5px 14px; font-weight:500; transition:.18s var(--ease)}
+.jtoggle button[aria-pressed="true"]{background:var(--ink); border-color:var(--ink); color:#fff}
+.ans__main h4{font-size:20px; margin:0 0 14px; letter-spacing:-.025em}
+.ans__main p{font-size:15.5px; line-height:1.7; color:var(--ink-80); font-weight:300}
+.cite{
+  display:inline-block; font-size:10px; font-weight:700; color:var(--crimson); vertical-align:super;
+  border:1px solid currentColor; border-radius:3px; padding:0 3px; margin-left:2px; line-height:1.4; cursor:pointer;
+}
+.ans__acts{display:flex; gap:9px; align-items:center; margin-top:22px; padding-top:18px; border-top:1px solid var(--line); flex-wrap:wrap}
+.ans__acts .fb{margin-left:auto; font-size:12.5px; color:var(--ink-60); display:flex; align-items:center; gap:9px}
+.ans__acts .fb button{border:1px solid var(--line); border-radius:100px; width:28px; height:28px; display:grid; place-items:center; font-size:12px}
+.ans__acts .fb button:hover{border-color:var(--ink)}
+.ans__side h6{font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-60); margin:0 0 13px}
+.src{display:flex; gap:11px; padding:11px 0; border-bottom:1px solid var(--line); text-decoration:none}
+.src .n{font-size:10px; font-weight:700; color:var(--crimson); border:1px solid currentColor; border-radius:3px; padding:1px 4px; height:fit-content; flex:none}
+.src b{display:block; font-size:13px; font-weight:600; line-height:1.35; letter-spacing:-.012em}
+.src small{font-size:11px; color:var(--ink-60)}
+.src:hover b{color:var(--crimson)}
+
+/* related reading rail + topic following */
+.rrail{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border-top:1px solid var(--line)}
+.rrail a{background:var(--white); padding:20px 22px; text-decoration:none; display:block; transition:.18s var(--ease)}
+.rrail a:hover{background:var(--surface)}
+.rrail .t{font-size:10.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--crimson)}
+.rrail h5{font-size:14.5px; line-height:1.35; margin:8px 0 7px; font-weight:600; letter-spacing:-.015em}
+.rrail a:hover h5{color:var(--crimson)}
+.rrail .m{font-size:11.5px; color:var(--ink-60)}
+.rrail__hd{
+  padding:16px 30px; background:var(--surface); border-top:1px solid var(--line);
+  font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-60);
+}
+.follow{
+  display:flex; align-items:center; gap:16px; flex-wrap:wrap; padding:18px 30px;
+  background:var(--ink); color:#fff;
+}
+.follow b{font-size:14.5px; font-weight:600}
+.follow .tags{display:flex; gap:7px; flex-wrap:wrap}
+.follow .tags span{font-size:12px; border:1px solid rgba(255,255,255,.32); border-radius:100px; padding:4px 12px}
+.follow .gbtn{margin-left:auto; background:var(--crimson)}
+.follow .gbtn:hover{background:#fff; color:var(--ink)}
+.follow small{font-size:12px; color:rgba(255,255,255,.55); width:100%}
+
+/* the current listing, sketched */
+.today{background:var(--surface); padding:22px 26px; border:1px solid var(--line)}
+.today .row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px}
+.today .sel{
+  background:var(--white); border:1px solid var(--line); padding:8px 30px 8px 13px;
+  font-size:12.5px; color:var(--ink-60); position:relative; min-width:118px;
+}
+.today .sel::after{
+  content:""; position:absolute; right:12px; top:13px; width:6px; height:6px;
+  border-right:1.5px solid var(--ink-60); border-bottom:1.5px solid var(--ink-60); transform:rotate(45deg);
+}
+.today .meta{font-size:12.5px; color:var(--ink-60); display:flex; gap:20px; flex-wrap:wrap; border-top:1px solid var(--line); padding-top:13px}
+.today .meta b{color:var(--ink); font-weight:600}
+
+@media (max-width:900px){
+  .ans{grid-template-columns:1fr}
+  .ans__main{border-right:0; border-bottom:1px solid var(--line)}
+  .rrail{grid-template-columns:1fr}
+  .ask-top{padding:24px 20px}
+  .ans__main,.ans__side{padding:22px 20px}
+}
+</style>
+</head>
+<body class="present">
+<header class="deckbar">
+  <div class="deckbar__in">
+    <a class="deckbar__brand" href="index.html">Ogier <span>Roadmap concepts</span></a>
+    <nav class="deckbar__nav">
+      <a href="index.html">Overview</a>
+      <a href="idea-one.html">One<span class="navtail"> · Routes in</span></a>
+      <a href="idea-two.html">Two<span class="navtail"> · Concierge</span></a>
+      <a href="idea-three.html" aria-current="page">Three<span class="navtail"> · Insights</span></a>
+      <a href="idea-four.html">Four<span class="navtail"> · Enquiries</span></a>
+      <button class="annotoggle" id="annotoggle" data-on="false" type="button">Show notes</button>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="wrap intro">
+  <p class="eyebrow">Idea Three</p>
+  <h1>Making the insights library answer the question.</h1>
+  <p class="lede">News and insights holds <strong>4,392</strong> deals, insights, guides, briefings
+  and newsletters, filtered by service, sector, location, type, topic, year and author. It is a
+  formidable body of work. This idea places a layer over it that responds to a question directly,
+  and shows the Ogier articles the response is drawn from.</p>
+</section>
+
+<section class="wrap anno" style="padding:34px 0 4px">
+  <div class="note">
+    <strong>The opportunity.</strong> The listing serves a reader who already knows what they are
+    looking for. A reader who arrives with a question — <em>what has changed for fund managers this
+    quarter?</em> — must first translate it into a combination of filters before the archive can
+    help them. That translation is work the site can do on their behalf, and the material to answer
+    with is already published.
+  </div>
+</section>
+
+<section class="wrap anno" style="padding:8px 0 0">
+  <p class="kicker" style="margin-bottom:14px">The listing today</p>
+  <div class="today">
+    <div class="row">
+      <span class="sel">Select a service</span><span class="sel">Select a sector</span>
+      <span class="sel">Select a location</span><span class="sel">Select a type</span>
+      <span class="sel">Select a topic</span><span class="sel">Select a year</span>
+      <span class="sel">Select a month</span><span class="sel">Select an author</span>
+    </div>
+    <div class="meta">
+      <span>Showing <b>1 – 24</b> out of <b>4,392</b> results</span>
+      <span>Sorted by <b>date</b></span>
+      <span>Author list runs to <b>several hundred</b> names</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ THE CONCEPT ════════════════════════════════════════ -->
+<section class="wrap concept" id="c1" style="margin-top:34px">
+  <div class="concept__head">
+    <div>
+      <p class="concept__num">The concept</p>
+      <h2>Ask the archive</h2>
+      <p class="sub">A question field above the listing. The response is written from Ogier's own
+      published material, every claim numbered to the article it came from, with the jurisdiction
+      switchable so the same question can be asked of a different market.</p>
+    </div>
+    <ul class="whylist anno">
+      <li><b>Sources are the point.</b> For a law firm an unattributed answer is a liability; an attributed one puts the archive to work.</li>
+      <li><b>It returns readers to the articles.</b> The response is a route into the library, not a replacement for it.</li>
+      <li><b>Older work re-enters circulation.</b> Well-argued pieces from previous quarters resurface wherever they answer a live question.</li>
+    </ul>
+  </div>
+
+  <div class="frame">
+    <div class="frame__bar">
+      <div class="frame__dots"><i></i><i></i><i></i></div>
+      <div class="frame__url">ogier.com/news-and-insights</div>
+      <div class="frame__tag">Live</div>
+    </div>
+    <div class="frame__body">
+      <div class="og ask">
+        <div class="ask-top">
+          <p class="k">News and insights</p>
+          <h3>Ask a question of our published work</h3>
+          <div class="askfield">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            <input id="askinput" type="text" value="What has changed for fund managers this quarter?" aria-label="Ask a question">
+            <button type="button" id="askgo">Ask</button>
+          </div>
+          <div class="asksugg">
+            <button type="button">Which recent judgments should I be aware of?</button>
+            <button type="button">What are the current economic substance obligations?</button>
+            <button type="button">What has Ogier published on digital assets?</button>
+          </div>
+        </div>
+
+        <div class="ans">
+          <div class="ans__main">
+            <div class="jtoggle" id="jtoggle">
+              <span class="lbl">Jurisdiction</span>
+              <button type="button" data-j="cayman" aria-pressed="true">Cayman Islands</button>
+              <button type="button" data-j="lux" aria-pressed="false">Luxembourg</button>
+            </div>
+            <h4 id="ans-h">What has changed for fund managers this quarter — Cayman Islands</h4>
+            <div id="ans-b"></div>
+            <div class="guard">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--crimson)" stroke-width="2" style="flex:none;margin-top:2px"><path d="M12 3l8 3v6c0 4.5-3.2 8.2-8 9-4.8-.8-8-4.5-8-9V6l8-3z"/><path d="M12 9v4M12 16v.5"/></svg>
+              <span><b>A summary of published material, not legal advice.</b> Every statement above is
+              drawn from an Ogier article and linked to it. Nothing here creates a client
+              relationship, and the position on any particular structure will turn on its own facts.</span>
+            </div>
+            <div class="ans__acts">
+              <a class="gbtn" href="#c1">Speak to the funds team <span class="chev"></span></a>
+              <a class="gbtn gbtn--ghost" href="#c1" id="seeall">See all 214 funds insights</a>
+              <span class="fb">Useful? <button type="button" aria-label="Yes">👍</button><button type="button" aria-label="No">👎</button></span>
+            </div>
+          </div>
+          <div class="ans__side">
+            <h6>Drawn from</h6>
+            <div id="ans-src"></div>
+            <h6 style="margin-top:22px">Written by</h6>
+            <div class="pcard" style="background:var(--white)" id="ans-who"></div>
+          </div>
+        </div>
+
+        <div class="rrail__hd">Continue reading</div>
+        <div class="rrail" id="ans-rel"></div>
+
+        <div class="follow">
+          <b>Follow this subject</b>
+          <div class="tags" id="ans-tags"></div>
+          <a class="gbtn" href="#c1">Sign up to receive updates <span class="chev"></span></a>
+          <small>Updates arrive only when we publish on the subjects you have chosen.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="demohint anno">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11.5V5a2 2 0 1 1 4 0v6"/><path d="M13 11V4a2 2 0 1 1 4 0v8"/><path d="M17 11.5V7a2 2 0 1 1 4 0v9a6 6 0 0 1-6 6h-2a7 7 0 0 1-6-4l-2.5-4a2 2 0 0 1 3.2-2.3L9 14"/></svg>
+    Switch the jurisdiction — the response, its sources and the onward reading all change
+  </p>
+</section>
+
+<!-- ══ BY-PRODUCTS ════════════════════════════════════════ -->
+<section class="wrap concept" id="c2">
+  <div class="concept__head">
+    <div>
+      <p class="concept__num">Beyond the reader</p>
+      <h2>Four things this gives the firm</h2>
+      <p class="sub">The value is not only in the answer. A question field over four thousand
+      articles produces information the marketing and knowledge teams do not currently have.</p>
+    </div>
+  </div>
+  <div class="rails">
+    <div>
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>
+      <b>A record of demand</b>
+      <p>Every question asked is a signal. Subjects that come up repeatedly and are answered thinly show exactly where the next briefing should go.</p>
+    </div>
+    <div>
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h16M4 12h16M4 18h9"/><circle cx="19" cy="18" r="2.4"/></svg>
+      <b>Subscription at subject level</b>
+      <p>Sign-up moves from a single list to following a service, a sector or a jurisdiction — better for the reader and better for engagement.</p>
+    </div>
+    <div>
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v10M12 13l4-4M12 13l-4-4"/><path d="M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17"/></svg>
+      <b>The back catalogue earns again</b>
+      <p>Articles published two years ago continue to work wherever they answer a current question, rather than sinking down a date-ordered list.</p>
+    </div>
+    <div>
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <b>Better visibility in search</b>
+      <p>Question-shaped pages with attributed answers are the format search engines and AI assistants increasingly surface.</p>
+    </div>
+  </div>
+  <dl class="build anno" style="margin-top:34px">
+    <div><dt>Effort</dt><dd>Significant. Retrieval quality, accuracy of attribution and editorial sign-off all matter.</dd></div>
+    <div><dt>The real work</dt><dd>A review process: which responses a partner has approved, and how they are retired as the law moves.</dd></div>
+    <div><dt>Suggested phase</dt><dd>Phase three, and worth piloting internally as a knowledge tool before it faces clients.</dd></div>
+  </dl>
+</section>
+
+<section class="wrap anno" style="padding:12px 0 20px">
+  <p><a href="idea-four.html" style="font-weight:600;color:var(--crimson);text-decoration:none">Next: Idea Four — enquiry routing <span class="chev" style="display:inline-block"></span></a></p>
+</section>
+</main>
+<footer class="wrap" style="padding-top:52px;padding-bottom:64px;border-top:1px solid var(--line);margin-top:40px">
+  <p class="small muted" style="margin:0;max-width:74ch">
+    Concept designs prepared by <strong style="color:var(--ink)">ClerksWell</strong> for discussion with Ogier.
+    Interface copy, service names, jurisdictions and article titles are taken from ogier.com and used
+    illustratively; individual names and job titles shown in the demos are placeholders. These are
+    interactive concepts, not production code, and nothing here constitutes legal advice.
+  </p>
+</footer>
+<script>
+(function(){
+  var t=document.getElementById('annotoggle');
+  t.addEventListener('click',function(){
+    var on=t.dataset.on==='true';
+    document.body.classList.toggle('present',on);
+    t.dataset.on=on?'false':'true';
+    t.textContent=on?'Show notes':'Hide notes';
+  });
+})();
+</script>
+<script>
+(function(){
+  var tog=document.getElementById('jtoggle'), h=document.getElementById('ans-h'),
+      b=document.getElementById('ans-b'), s=document.getElementById('ans-src'),
+      rel=document.getElementById('ans-rel'), who=document.getElementById('ans-who'),
+      tags=document.getElementById('ans-tags'), seeall=document.getElementById('seeall');
+  if(!tog) return;
+
+  var D={
+    cayman:{
+      h:'What has changed for fund managers this quarter — Cayman Islands',
+      count:'214 Cayman funds insights',
+      body:'<p>Three themes run through Ogier&rsquo;s Cayman publishing this quarter.</p>'+
+        '<p><b>Digital assets and AI infrastructure</b> are increasingly financed through Cayman'+
+        ' vehicles, and the treatment of computing capacity as capital has moved from a theoretical'+
+        ' question to a structuring one.<span class="cite">1</span></p>'+
+        '<p><b>The Grand Court has continued to define the limits of its own supervision.</b> The'+
+        ' latest PetroSaudi judgment confirms there is no jurisdiction to wind up a company ex'+
+        ' parte,<span class="cite">2</span> and the Court has reaffirmed the high threshold for any'+
+        ' derogation from the principle of open justice.<span class="cite">3</span></p>'+
+        '<p><b>Listing activity through Cayman vehicles has recovered</b>, with several NYSE'+
+        ' transactions completing during August.<span class="cite">4</span></p>',
+      src:[['1','When compute becomes capital: Cayman, digital assets and the financialisation of AI','Insight · 19 Aug 2026 · Racheal Muldoon'],
+           ['2','No jurisdiction to wind up a company ex parte: Cayman Court of Appeal rules in latest PetroSaudi judgment','Insight · 17 Aug 2026 · Rondelle Keller'],
+           ['3','Cayman Grand Court reaffirms the high threshold for any derogation from the principle of open justice','Insight · 26 Aug 2026 · Farrah Sbaiti'],
+           ['4','Ogier&rsquo;s Cayman team advises Pinnacle Acquisition Corporation on US$200 million NYSE IPO','Deal · 11 Aug 2026']],
+      who:{i:'RM',n:'Racheal Muldoon',r:'Dispute Resolution · Cayman Islands'},
+      tags:['Investment Funds','Cayman Islands','Technology and Web3'],
+      rel:[['Insight · 24 Aug','First word on non-party discovery: the Grand Court applies new Order 24 Rule 7A in China Shanshui','Holly Johnston · 3 min read'],
+           ['Deal · 2 Sept','Ogier advises Instinct Bio on US$288 million de-SPAC business combination','Cayman Islands, Hong Kong'],
+           ['Guide · 10 Aug','At a Glance Guide to Trustee and Agency Services','Global · 1 min read']]
+    },
+    lux:{
+      h:'What has changed for fund managers this quarter — Luxembourg',
+      count:'96 Luxembourg funds insights',
+      body:'<p>Two developments dominate Ogier&rsquo;s Luxembourg publishing this quarter.</p>'+
+        '<p><b>The new carried interest regime is the significant one.</b> It changes how managers'+
+        ' structure and account for carry, and merits a review of existing arrangements as well as'+
+        ' of anything being raised now.<span class="cite">1</span></p>'+
+        '<p><b>Cross-border structuring for UK transactions has been reassessed</b> for the second'+
+        ' half of 2026 and into 2027, with consequences for Luxembourg holding structures in'+
+        ' particular.<span class="cite">2</span></p>'+
+        '<p>Across the region, <b>fund administration continues to consolidate around substance</b>,'+
+        ' a theme our Irish colleagues have written on at length this quarter.<span class="cite">3</span></p>',
+      src:[['1','Luxembourg&rsquo;s new carried interest regime','Insight · 4 Sept 2026 · Aurélie Clementz'],
+           ['2','Cross-border structuring in UK M&amp;A: outlook for H2 2026 and 2027','Insight · 11 Aug 2026 · Simon Dinning'],
+           ['3','Nichola Costello on the trends shaping the future of fund administration in Ireland','Insight · 21 Aug 2026 · Ireland']],
+      who:{i:'AC',n:'Aurélie Clementz',r:'Legal Services · Luxembourg'},
+      tags:['Investment Funds','Luxembourg','Private Equity'],
+      rel:[['Newsletter · 14 Aug','Asset Management Essentials: Ireland — Q3 2026','Ireland · 28 min read'],
+           ['Insight · 12 Aug','DIFC prescribed company reforms: greater flexibility for international investors and family offices','Daniel Pacic · 3 min read'],
+           ['Insight · 27 Aug','China&rsquo;s new offshore trust tax rules: what families should consider now','Grace Gao · 3 min read']]
+    }
+  };
+
+  function draw(k){
+    var d=D[k];
+    h.textContent=d.h; b.innerHTML=d.body; seeall.textContent='See all '+d.count;
+    s.innerHTML=d.src.map(function(x){
+      return '<a class="src" href="#c1"><span class="n">'+x[0]+'</span><span><b>'+x[1]+'</b><small>'+x[2]+'</small></span></a>';
+    }).join('');
+    who.innerHTML='<div class="who"><span class="av">'+d.who.i+'</span><div><b>'+d.who.n+'</b>'+
+      '<small>'+d.who.r+'</small></div></div><span class="go">Ask a follow-up <span class="chev"></span></span>';
+    tags.innerHTML=d.tags.map(function(t){ return '<span>'+t+'</span>'; }).join('');
+    rel.innerHTML=d.rel.map(function(r){
+      return '<a href="#c1"><span class="t">'+r[0]+'</span><h5>'+r[1]+'</h5><span class="m">'+r[2]+'</span></a>';
+    }).join('');
+  }
+  tog.addEventListener('click',function(e){
+    var btn=e.target.closest('button[data-j]'); if(!btn) return;
+    tog.querySelectorAll('button[data-j]').forEach(function(x){ x.setAttribute('aria-pressed', x===btn?'true':'false'); });
+    draw(btn.dataset.j);
+  });
+  draw('cayman');
+})();
+</script>
+</body>
+</html>

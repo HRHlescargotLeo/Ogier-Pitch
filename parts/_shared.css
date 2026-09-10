@@ -87,6 +87,10 @@ button{font:inherit; color:inherit; cursor:pointer; border:0; background:none}
 /* annotation blocks — hidden in presentation mode */
 .anno{transition:opacity .25s var(--ease)}
 body.present .anno{display:none !important}
+/* with the commentary hidden, let the headings use the full measure */
+body.present .concept__head{grid-template-columns:1fr; margin-bottom:32px}
+body.present .concept__head h2{max-width:24ch}
+body.present .concept__head .sub{max-width:74ch}
 
 .note{
   border-left:2px solid var(--crimson); background:var(--surface); padding:16px 20px;
@@ -94,7 +98,23 @@ body.present .anno{display:none !important}
 }
 .note strong{color:var(--ink)}
 
-/* ── content cards (shared by both idea pages) ──────────────── */
+/* ── buttons, guardrails, plain cards (shared) ──────────────── */
+.gcard{background:var(--white); border:1px solid var(--line)}
+.guard{
+  display:flex; gap:10px; align-items:flex-start; background:#FFF6F8; border-left:2px solid var(--crimson);
+  padding:11px 14px; font-size:12.5px; line-height:1.5; color:var(--ink-80);
+}
+.guard b{color:var(--ink); font-weight:600}
+.gbtn{
+  display:inline-flex; align-items:center; gap:8px; background:var(--ink); color:#fff;
+  border-radius:100px; padding:9px 18px; font-size:13px; font-weight:600; text-decoration:none;
+  transition:.2s var(--ease);
+}
+.gbtn:hover{background:var(--crimson)}
+.gbtn--ghost{background:none; color:var(--ink); border:1px solid var(--line)}
+.gbtn--ghost:hover{background:var(--surface); color:var(--ink); border-color:var(--ink)}
+
+/* ── content cards (shared across idea pages) ──────────────── */
 .icard{text-decoration:none; display:block}
 .icard .t{font-size:10.5px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--crimson)}
 .icard h5{font-size:15px; line-height:1.35; margin:7px 0 6px; font-weight:600; letter-spacing:-.015em}
@@ -106,6 +126,14 @@ body.present .anno{display:none !important}
 .pcard b{display:block; font-size:14px}
 .pcard small{display:block; font-size:11.5px; color:var(--ink-60)}
 .pcard .go{display:inline-flex; align-items:center; gap:7px; margin-top:13px; font-size:13px; font-weight:600; color:var(--crimson)}
+
+/* ── four-across principle cards (shared) ───────────────────── */
+.rails{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line)}
+.rails > div{background:var(--white); padding:22px 24px}
+.rails b{display:block; font-size:15px; font-weight:600; letter-spacing:-.018em; margin-bottom:8px}
+.rails p{font-size:13.5px; line-height:1.55; color:var(--ink-60); font-weight:300; margin:0}
+.rails .ic{width:26px; height:26px; margin-bottom:13px; color:var(--crimson)}
+@media (max-width:900px){ .rails{grid-template-columns:1fr} }
 
 /* ── concept scaffolding ─────────────────────────────────────── */
 .concept{padding:70px 0 78px; border-top:1px solid var(--line)}
@@ -203,8 +231,10 @@ body.present .anno{display:none !important}
   .wrap{padding:0 18px}
   .deckbar__brand span{display:none}
 }
-@media (max-width:780px){
+@media (max-width:1180px){
   .navtail{display:none}
+}
+@media (max-width:780px){
   .deckbar__in{gap:8px}
   .deckbar__nav{gap:0}
   .deckbar__nav a{padding:7px 9px; font-size:12.5px}
